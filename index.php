@@ -36,6 +36,24 @@
     </div>
 </section> 
 
+<!-- header -->
+<header id="header">
+	<div class="container">
+    	<div id="logo" class="pull-left">
+            <h1><a href="#body" class="scrollto">Export <span>Nakliyat</span></a></h1>
+        </div>
+        <nav id="nav-menu-container">
+            <ul class="nav-menu">        
+                <li class="menu-active"><a href="#body">Anasayfa</a></li>
+                <li><a href="#hakkimizda">Hakkımızda</a></li>
+                <li><a href="#hizmetler">Hizmetlerimiz</a></li>
+                <li><a href="#filo">Araç Filomuz</a></li>
+                <li><a href="#iletisim">iletişim</a></li> 
+            </ul>
+        </nav>
+    </div>
+</header>
+
 <!-- intro -->
 <section id="intro">
     <div class="intro-content">
