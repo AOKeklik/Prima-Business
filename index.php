@@ -151,7 +151,167 @@
 </section>
 
 
+<!-- products -->
+<section id="filo" class="wow fadeInUp">
+    <div class="container">
+		<div class="section-header">
+            <h2>Araçlarımız</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing</p>
+   		</div>
+    </div>
+    <div class="container-fluid">
+        <div class="row no-gutters">
+            <div class="col-lg-3 col-md-4">         
+                <div class="filo-item wow fadeInUp">            
+                    <a href="img/filo/1.jpg" class="filo-popup">
+                    <img src="img/filo/1.jpg" alt="" />
+                    <div class="filo-overlay">                
+                    </div>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-4">         
+                <div class="filo-item wow fadeInUp">            
+                    <a href="img/filo/2.jpg" class="filo-popup">
+                        <img src="img/filo/2.jpg" alt="" />
+                        <div class="filo-overlay">
+                    
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-4">         
+                <div class="filo-item wow fadeInUp">            
+                    <a href="img/filo/3.jpg" class="filo-popup">
+                        <img src="img/filo/3.jpg" alt="" />
+                        <div class="filo-overlay">
+                    
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-4">         
+                <div class="filo-item wow fadeInUp">            
+                    <a href="img/filo/4.jpg" class="filo-popup">
+                        <img src="img/filo/4.jpg" alt="" />
+                        <div class="filo-overlay">
+                    
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-4">         
+                <div class="filo-item wow fadeInUp">            
+                    <a href="img/filo/5.jpg" class="filo-popup">
+                        <img src="img/filo/5.jpg" alt="" />
+                        <div class="filo-overlay">
+                    
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-4">         
+                <div class="filo-item wow fadeInUp">            
+                    <a href="img/filo/6.jpg" class="filo-popup">
+                        <img src="img/filo/6.jpg" alt="" />
+                        <div class="filo-overlay">
+                    
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-4">         
+                <div class="filo-item wow fadeInUp">            
+                    <a href="img/filo/7.jpg" class="filo-popup">
+                        <img src="img/filo/7.jpg" alt="" />
+                        <div class="filo-overlay">
+                    
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-4">         
+                <div class="filo-item wow fadeInUp">            
+                    <a href="img/filo/8.jpg" class="filo-popup">
+                        <img src="img/filo/8.jpg" alt="" />
+                        <div class="filo-overlay">
+                    
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
+<!-- testimonials -->
+<section id="yorumlar" class="wow fadeInUp">
+    <div class="container">
+		<div class="section-header">
+            <h2>Müşteri Yorumları</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing </p>
+   		</div>
+         
+        <div class="owl-carousel testimonials-carousel">
+         	<div class="testimonial-item">    
+                <p>
+                    <img src="img/sol.png" class="quote-sign-left" />
+                    Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing
+                    <img src="img/sag.png" class="quote-sign-right" />
+                </p>
+                <img src="img/yorum.jpg" class="testimonial-img" alt="" />
+                <h3>İsim</h3>
+            </div>
+            
+            <div class="testimonial-item">
+                <p>
+                    <img src="img/sol.png" class="quote-sign-left" />
+                    Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing
+                    <img src="img/sag.png" class="quote-sign-right" />
+                </p>
+                <img src="img/yorum.jpg" class="testimonial-img" alt="" />
+                <h3>İsim</h3>
+            </div>
+            
+            <div class="testimonial-item">
+                <p>
+                    <img src="img/sol.png" class="quote-sign-left" />
+                    Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing
+                    <img src="img/sag.png" class="quote-sign-right" />
+                </p>
+                <img src="img/yorum.jpg" class="testimonial-img" alt="" />
+                <h3>İsim</h3>
+            </div>
+            
+            <div class="testimonial-item">
+                <p>
+                    <img src="img/sol.png" class="quote-sign-left" />
+                    Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing
+                    <img src="img/sag.png" class="quote-sign-right" />
+                </p>
+                <img src="img/yorum.jpg" class="testimonial-img" alt="" />
+                <h3>İsim</h3>
+            </div>
+            
+            <div class="testimonial-item">
+                <p>
+                    <img src="img/sol.png" class="quote-sign-left" />
+                    Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing
+                    <img src="img/sag.png" class="quote-sign-right" />
+                </p>
+                <img src="img/yorum.jpg" class="testimonial-img" alt="" />
+                <h3>İsim</h3>
+            </div>
+        </div>
+    </div>
+</section>
 
 </main>
 
