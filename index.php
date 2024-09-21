@@ -25,7 +25,7 @@
     <div class="container clearfix">
         <div class="contact-info float-left">
             <i class="fa fa-envelope-o"></i>
-            <a href="mailto:info@udemynakliyat.com">info@udemynakliyat.com</a>
+            <a href="mailto:info@nakliyat.com">info@nakliyat.com</a>
             <i class="fa fa-phone"></i>+90 000 00 00     
         </div>    
         <div class="social-links float-right">    
@@ -313,7 +313,82 @@
     </div>
 </section>
 
+
+<!-- contact -->
+<section id="iletisim" class="wow fadeInUp">
+    <div class="container">
+		<div class="section-header">
+            <h2>İletişim</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing </p>
+   		</div> 
+        
+        <div class="row contact-info"> 
+            <div class="col-md-4">
+                <div class="contact-address">
+                    <i class="ion-ios-location-outline"></i>
+                    <h3>Adresimiz</h3>
+                    <address>Evren mah. dünya sok.yer kabuğu apt. no:1</address>
+                </div>
+            </div>
+         
+            <div class="col-md-4">
+                <div class="contact-phone">
+                    <i class="ion-ios-telephone-outline"></i>
+                    <h3>Telefon Numaramız</h3>
+                    <p><a href="tel:+902121111111">+902121111111</a></p>
+                </div>
+            </div>
+         
+            <div class="col-md-4">
+                <div class="contact-email">
+                    <i class="ion-ios-email-outline"></i>
+                    <h3>Mail</h3>
+                    <p><a href="mailto:info@nakliyat.com">info@nakliyat.com</a></p>
+                </div>
+            </div>   
+        </div>
+    </div>
+    <div class="container mb-4">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48187.25741308118!2d28.611613590057516!3d40.98797099143595!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14b55fc19deb0b3b%3A0xdf4ea093f30983c6!2zQmV5bGlrZMO8esO8L8Swc3RhbmJ1bA!5e0!3m2!1str!2str!4v1545739036216" width="100%" height="380" frameborder="0" style="border:0" allowfullscreen></iframe>
+    </div>
+    <div class="container">
+        <div class="form">
+            <div id="mesajsonuc"></div>
+            <div id="mesajhata"></div>
+            
+            <form id="mailform">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <input type="text" name="isim" class="form-control" placeholder="Adınız" required="required" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <input type="text" name="mail" class="form-control" placeholder="Mail Adresiniz" required="required" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="konu" class="form-control" placeholder="Mesaj Konusu" required="required" />
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" name="mesaj" rows="5"></textarea>
+                </div>
+                <div class="text-center"><input type="button"  value="Gönder" id="gonderbtn" class="btn btn-info"/></div>
+            </form>
+        </div>
+    </div>
+</section>
+
 </main>
+
+<!-- footer -->
+<footer id="footer">
+    <div class="container">
+        <div class="copyright">2019 &copy; Copyright <strong>Export</strong></div>
+        <div class="credits">Abdullah Onur Keklik</div>
+    </div>
+</footer>
+
+<!-- back to up button -->
+<a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 
 
 
