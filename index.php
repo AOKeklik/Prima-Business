@@ -36,7 +36,19 @@
     </div>
 </section> 
 
-
+<!-- intro -->
+<section id="intro">
+    <div class="intro-content">
+        <h2>Güvenle Taşıyoruz</h2>
+    </div>
+    <div id="intro-carousel" class="owl-carousel">
+        <div class="item" style="background-image:url('img/carousel/1.jpg');"></div>
+        <div class="item" style="background-image:url('img/carousel/2.jpg');"></div>
+        <div class="item" style="background-image:url('img/carousel/3.jpg');"></div>
+        <div class="item" style="background-image:url('img/carousel/4.jpg');"></div>
+        <div class="item" style="background-image:url('img/carousel/5.jpg');"></div>
+    </div>
+</section>
 
 
 
