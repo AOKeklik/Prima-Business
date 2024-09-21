@@ -87,7 +87,70 @@
     </div>
 </section>
 
-<!--  -->
+<!-- offers -->
+<section id="hizmetler">
+	<div class="container">
+    	<div class="section-header">
+            <h2>HİZMETLERİMİZ</h2>
+            <p>Yılların vermiş olduğu tecrübe ile ürünleriniz güvenle taşıyoruz</p>
+   	    </div>
+        <div class="row">
+    		<div class="col-lg-6">
+            	<div class="box wow fadeInLeft">
+                	<div class="icon"><i class="fa fa-bar-chart"></i></div>
+                    <h4 class="title"><a href="#">Lorem Ipsum</a></h4>
+                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing</p>
+                </div> 
+            </div>
+                  
+            <div class="col-lg-6">
+            	<div class="box wow fadeInRight">
+                	<div class="icon"><i class="fa fa-picture-o"></i></div>
+                    <h4 class="title"><a href="#">Lorem Ipsum</a></h4>
+                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing</p>
+                </div> 
+            </div>
+                  
+            <div class="col-lg-6">
+            	<div class="box wow fadeInLeft" >
+                	<div class="icon"><i class="fa fa-map"></i></div>
+                    <h4 class="title"><a href="#">Lorem Ipsum</a></h4>
+                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing</p>
+                </div> 
+            </div>
+                  
+            <div class="col-lg-6">
+            	<div class="box wow fadeInRight">
+                	<div class="icon"><i class="fa fa-shopping-bag"></i></div>
+                    <h4 class="title"><a href="#">Lorem Ipsum</a></h4>
+                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing</p>
+                </div> 
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- references  -->
+<section id="referanslar" class="wow fadeInUp">
+	<div class="container">
+    	<div class="section-header">
+            <h2>Referanslar</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing</p>
+        </div>
+        <div class="owl-carousel clients-carousel">
+            <img src="img/referans/ref1.png" alt="" />
+            <img src="img/referans/ref2.png" alt="" />
+            <img src="img/referans/ref3.png" alt="" />
+            <img src="img/referans/ref4.png" alt="" />
+            <img src="img/referans/ref5.png" alt="" />
+            <img src="img/referans/ref6.png" alt="" />
+            <img src="img/referans/ref7.png" alt="" />
+            <img src="img/referans/ref8.png" alt="" />
+         </div>
+    </div>
+</section>
+
+
 
 
 </main>
