@@ -50,6 +50,30 @@
     </div>
 </section>
 
+<!-- main body -->
+<main id="main">
+
+<!-- about -->
+<section id="hakkimizda" class="wow fadeInUp">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 hakkimizda-img">
+                <img src="img/hakkimiz.jpg"  alt=""/>
+            </div>
+            <div class="col-lg-6 content">
+                <h2>Lorem ipsum dolor sit amet, consectetur adipiscing</h2>
+                <h3>Lorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscing</h3>
+                <h3>Lorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscing</h3>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--  -->
+
+
+</main>
+
 
 
 
