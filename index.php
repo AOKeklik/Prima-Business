@@ -4,14 +4,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="utf-8">
-  <title><?php echo $set->title()?></title>
-  <meta name="title" content="<?php echo $set->title()?>" />
-  <meta name="metatitle" content="<?php echo $set->metaTitle()?>" />
-  <meta name="description" content="<?php echo $set->metaDesc()?>" />
-  <meta name="keywords" content="<?php echo $set->metaKey()?>" />
-  <meta name="author" content="<?php echo $set->metaAut()?>" />
-  <meta name="owner" content="<?php echo $set->metaOwn()?>" />
-  <meta name="copyright" content="<?php echo $set->metaCoppy()?>" />
+  <title><?php echo $set->getSetting()->title()?></title>
+  <meta name="title" content="<?php echo $set->getSetting()->title()?>" />
+  <meta name="metatitle" content="<?php echo $set->getSetting()->metaTitle()?>" />
+  <meta name="description" content="<?php echo $set->getSetting()->metaDesc()?>" />
+  <meta name="keywords" content="<?php echo $set->getSetting()->metaKey()?>" />
+  <meta name="author" content="<?php echo $set->getSetting()->metaAut()?>" />
+  <meta name="owner" content="<?php echo $set->getSetting()->metaOwn()?>" />
+  <meta name="copyright" content="<?php echo $set->getSetting()->metaCoppy()?>" />
   <!-- fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800|Montserrat:300,400,700" rel="stylesheet">
   <!-- bootstrap -->
@@ -34,13 +34,13 @@
     <div class="container clearfix">
         <div class="contact-info float-left">
             <i class="fa fa-envelope-o"></i>
-            <a href="mailto:<?php echo $set->mail()?>"><?php echo $set->mail()?></a>
-            <i class="fa fa-phone"></i><?php echo $set->tel()?>     
+            <a href="mailto:<?php echo $set->getSetting()->mail()?>"><?php echo $set->getSetting()->mail()?></a>
+            <i class="fa fa-phone"></i><?php echo $set->getSetting()->tel()?>     
         </div>    
         <div class="social-links float-right">    
-            <a href="<?php echo $set->twitter()?>" class="twitter"><i class="fa fa-twitter"></i></a>
-            <a href="<?php echo $set->facebook()?>" class="facebook"><i class="fa fa-facebook"></i></a>
-            <a href="<?php echo $set->instagram()?>" class="instagram"><i class="fa fa-instagram"></i></a> 
+            <a href="<?php echo $set->getSetting()->twitter()?>" class="twitter"><i class="fa fa-twitter"></i></a>
+            <a href="<?php echo $set->getSetting()->facebook()?>" class="facebook"><i class="fa fa-facebook"></i></a>
+            <a href="<?php echo $set->getSetting()->instagram()?>" class="instagram"><i class="fa fa-instagram"></i></a> 
         </div>
     </div>
 </section> 
@@ -49,7 +49,7 @@
 <header id="header">
 	<div class="container">
     	<div id="logo" class="pull-left">
-            <h1><a href="#body" class="scrollto"><?php echo $set->logo()?></a></span></h1>
+            <h1><a href="#body" class="scrollto"><?php echo $set->getSetting()->logo()?></a></span></h1>
         </div>
         <nav id="nav-menu-container">
             <ul class="nav-menu">        
@@ -66,7 +66,7 @@
 <!-- intro -->
 <section id="intro">
     <div class="intro-content">
-        <h2><?php echo $set->tagline()?></h2>
+        <h2><?php echo $set->getSetting()->tagline()?></h2>
     </div>
     <div id="intro-carousel" class="owl-carousel">
         <?php foreach ($set->getAllIntro () as $item) {
@@ -142,7 +142,7 @@
 <section id="referanslar" class="wow fadeInUp">
 	<div class="container">
     	<div class="section-header">
-            <h2><?php echo $set->headingRef()?></h2>
+            <h2><?php echo $set->getSetting()->headingRef()?></h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing.</p>
         </div>
         <div class="owl-carousel clients-carousel">
@@ -160,7 +160,7 @@
 <section id="filo" class="wow fadeInUp">
     <div class="container">
 		<div class="section-header">
-            <h2><?php echo $set->headingPro()?></h2>
+            <h2><?php echo $set->getSetting()->headingPro()?></h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing</p>
    		</div>
     </div>
@@ -187,7 +187,7 @@
 <section id="yorumlar" class="wow fadeInUp">
     <div class="container">
 		<div class="section-header">
-            <h2><?php echo $set->headingTes()?></h2>
+            <h2><?php echo $set->getSetting()->headingTes()?></h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing </p>
    		</div>
          
@@ -214,7 +214,7 @@
 <section id="iletisim" class="wow fadeInUp">
     <div class="container">
 		<div class="section-header">
-            <h2><?php echo $set->headingCon()?></h2>
+            <h2><?php echo $set->getSetting()->headingCon()?></h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing </p>
    		</div> 
         
@@ -223,7 +223,7 @@
                 <div class="contact-address">
                     <i class="ion-ios-location-outline"></i>
                     <h3>Adresimiz</h3>
-                    <address><?php echo $set->address()?></address>
+                    <address><?php echo $set->getSetting()->address()?></address>
                 </div>
             </div>
          
@@ -231,7 +231,7 @@
                 <div class="contact-phone">
                     <i class="ion-ios-telephone-outline"></i>
                     <h3>Telefon Numaramız</h3>
-                    <p><a href="tel:<?php echo $set->tel()?>"><?php echo $set->tel()?></a></p>
+                    <p><a href="tel:<?php echo $set->getSetting()->tel()?>"><?php echo $set->getSetting()->tel()?></a></p>
                 </div>
             </div>
          
@@ -239,7 +239,7 @@
                 <div class="contact-email">
                     <i class="ion-ios-email-outline"></i>
                     <h3>Mail</h3>
-                    <p><a href="mailto:<?php echo $set->mail()?>"><?php echo $set->mail()?></a></p>
+                    <p><a href="mailto:<?php echo $set->getSetting()->mail()?>"><?php echo $set->getSetting()->mail()?></a></p>
                 </div>
             </div>   
         </div>
@@ -278,7 +278,7 @@
 <!-- footer -->
 <footer id="footer">
     <div class="container">
-        <div class="copyright"><?php echo $set->metaCoppy()?> &copy; Copyright <strong><?php echo $set->title()?></strong></div>
+        <div class="copyright"><?php echo $set->getSetting()->metaCoppy()?> &copy; Copyright <strong><?php echo $set->getSetting()->title()?></strong></div>
         <div class="credits">Abdullah Onur Keklik</div>
     </div>
 </footer>

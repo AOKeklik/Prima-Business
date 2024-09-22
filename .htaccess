@@ -1,0 +1,17 @@
+RewriteEngine On
+
+RewriteRule ^administrator/$ administrator/index.php?page=settings [L,QSA]
+RewriteRule ^administrator/settings$ administrator/index.php?page=settings [L,QSA]
+RewriteRule ^administrator/intro$ administrator/index.php?page=intro [L,QSA]
+RewriteRule ^administrator/about$ administrator/index.php?page=about [L,QSA]
+RewriteRule ^administrator/offers$ administrator/index.php?page=offers [L,QSA]
+RewriteRule ^administrator/references$ administrator/index.php?page=references [L,QSA]
+RewriteRule ^administrator/products$ administrator/index.php?page=products [L,QSA]
+RewriteRule ^administrator/testimonials$ administrator/index.php?page=testimonials [L,QSA]
+
+
+# 404.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule ^(.*)$ 404.php [L]
