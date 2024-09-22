@@ -100,38 +100,38 @@
 	<div class="container">
     	<div class="section-header">
             <h2>HİZMETLERİMİZ</h2>
-            <p>Yılların vermiş olduğu tecrübe ile ürünleriniz güvenle taşıyoruz</p>
+            <p><?php echo $set->getOffer()->desc()?></p>
    	    </div>
         <div class="row">
     		<div class="col-lg-6">
             	<div class="box wow fadeInLeft">
                 	<div class="icon"><i class="fa fa-bar-chart"></i></div>
-                    <h4 class="title"><a href="#">Lorem Ipsum</a></h4>
-                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing</p>
+                    <h4 class="title"><a href="#"><?php echo $set->getOffer()->firstTitle()?></a></h4>
+                    <p class="description"><?php echo $set->getOffer()->firstDesc()?></p>
                 </div> 
             </div>
                   
             <div class="col-lg-6">
             	<div class="box wow fadeInRight">
                 	<div class="icon"><i class="fa fa-picture-o"></i></div>
-                    <h4 class="title"><a href="#">Lorem Ipsum</a></h4>
-                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing</p>
+                    <h4 class="title"><a href="#"><?php echo $set->getOffer()->secondTitle()?></a></h4>
+                    <p class="description"><?php echo $set->getOffer()->secondDesc()?></p>
                 </div> 
             </div>
                   
             <div class="col-lg-6">
             	<div class="box wow fadeInLeft" >
                 	<div class="icon"><i class="fa fa-map"></i></div>
-                    <h4 class="title"><a href="#">Lorem Ipsum</a></h4>
-                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing</p>
+                    <h4 class="title"><a href="#"><?php echo $set->getOffer()->thirdTitle()?></a></h4>
+                    <p class="description"><?php echo $set->getOffer()->thirdDesc()?></p>
                 </div> 
             </div>
                   
             <div class="col-lg-6">
             	<div class="box wow fadeInRight">
                 	<div class="icon"><i class="fa fa-shopping-bag"></i></div>
-                    <h4 class="title"><a href="#">Lorem Ipsum</a></h4>
-                    <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing</p>
+                    <h4 class="title"><a href="#"><?php echo $set->getOffer()->forthTitle()?></a></h4>
+                    <p class="description"><?php echo $set->getOffer()->forthDesc()?></p>
                 </div> 
             </div>
         </div>
@@ -143,17 +143,14 @@
 	<div class="container">
     	<div class="section-header">
             <h2><?php echo $set->headingRef()?></h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing.</p>
         </div>
         <div class="owl-carousel clients-carousel">
-            <img src="img/referans/ref1.png" alt="" />
-            <img src="img/referans/ref2.png" alt="" />
-            <img src="img/referans/ref3.png" alt="" />
-            <img src="img/referans/ref4.png" alt="" />
-            <img src="img/referans/ref5.png" alt="" />
-            <img src="img/referans/ref6.png" alt="" />
-            <img src="img/referans/ref7.png" alt="" />
-            <img src="img/referans/ref8.png" alt="" />
+            <?php foreach ($set->getAllReferences() as $item) {
+                echo <<<HTML
+                    <img src="{$item->img()}" alt="" />
+                HTML;
+            }?>
          </div>
     </div>
 </section>
@@ -169,92 +166,19 @@
     </div>
     <div class="container-fluid">
         <div class="row no-gutters">
-            <div class="col-lg-3 col-md-4">         
-                <div class="filo-item wow fadeInUp">            
-                    <a href="img/filo/1.jpg" class="filo-popup">
-                    <img src="img/filo/1.jpg" alt="" />
-                    <div class="filo-overlay">                
+            <?php foreach ($set->getAllProducts() as $item) {
+                echo <<<HTML
+                    <div class="col-lg-3 col-md-4">         
+                        <div class="filo-item wow fadeInUp">            
+                            <a href="{$item->img()}" class="filo-popup">
+                            <img src="{$item->img()}" alt="" />
+                            <div class="filo-overlay">                
+                            </div>
+                            </a>
+                        </div>
                     </div>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-4">         
-                <div class="filo-item wow fadeInUp">            
-                    <a href="img/filo/2.jpg" class="filo-popup">
-                        <img src="img/filo/2.jpg" alt="" />
-                        <div class="filo-overlay">
-                    
-                        </div>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-4">         
-                <div class="filo-item wow fadeInUp">            
-                    <a href="img/filo/3.jpg" class="filo-popup">
-                        <img src="img/filo/3.jpg" alt="" />
-                        <div class="filo-overlay">
-                    
-                        </div>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-4">         
-                <div class="filo-item wow fadeInUp">            
-                    <a href="img/filo/4.jpg" class="filo-popup">
-                        <img src="img/filo/4.jpg" alt="" />
-                        <div class="filo-overlay">
-                    
-                        </div>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-4">         
-                <div class="filo-item wow fadeInUp">            
-                    <a href="img/filo/5.jpg" class="filo-popup">
-                        <img src="img/filo/5.jpg" alt="" />
-                        <div class="filo-overlay">
-                    
-                        </div>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-4">         
-                <div class="filo-item wow fadeInUp">            
-                    <a href="img/filo/6.jpg" class="filo-popup">
-                        <img src="img/filo/6.jpg" alt="" />
-                        <div class="filo-overlay">
-                    
-                        </div>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-4">         
-                <div class="filo-item wow fadeInUp">            
-                    <a href="img/filo/7.jpg" class="filo-popup">
-                        <img src="img/filo/7.jpg" alt="" />
-                        <div class="filo-overlay">
-                    
-                        </div>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-4">         
-                <div class="filo-item wow fadeInUp">            
-                    <a href="img/filo/8.jpg" class="filo-popup">
-                        <img src="img/filo/8.jpg" alt="" />
-                        <div class="filo-overlay">
-                    
-                        </div>
-                    </a>
-                </div>
-            </div>
+                HTML;
+            }?>
         </div>
     </div>
 </section>

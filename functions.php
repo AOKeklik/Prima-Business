@@ -8,7 +8,7 @@ try {
     echo "Function: ".$err->getMessage();
 }
 
-/* intro */
+/* tables */
 class Intro {
     private $pdo, $data;
     public function __construct ($pdo, $input)  {
@@ -37,6 +37,63 @@ class About {
         return $this->data["icerik"];
     }
 }
+class Offer {
+    private $pdo,$data;
+    public function __construct($pdo, $input) {
+        if (is_array($input)) {
+            $this->data = $input;
+        }
+    }
+    public function desc () {
+        return $this->data["hizmetler_baslik"];
+    }
+    public function firstTitle () {
+        return $this->data["baslik1"];
+    }
+    public function firstDesc () {
+        return $this->data["icerik1"];
+    }
+    public function secondTitle () {
+        return $this->data["baslik2"];
+    }
+    public function secondDesc () {
+        return $this->data["icerik2"];
+    }
+    public function thirdTitle () {
+        return $this->data["baslik3"];
+    }
+    public function thirdDesc () {
+        return $this->data["icerik3"];
+    }
+    public function forthTitle () {
+        return $this->data["baslik4"];
+    }
+    public function forthDesc () {
+        return $this->data["icerik4"];
+    }
+}
+class Referance {
+    private $pdo, $data;
+    public function __construct ($pdo, $input)  {
+        if (is_array($input))
+            $this->data = $input;
+    }
+
+    public function img () {
+        return $this->data["resimyol"];
+    }
+}
+class Products {
+    private $pdo, $data;
+    public function __construct ($pdo, $input)  {
+        if (is_array($input))
+            $this->data = $input;
+    }
+
+    public function img () {
+        return $this->data["resimyol"];
+    }
+}
 
 /* settings */
 class Settings {
@@ -59,7 +116,6 @@ class Settings {
         }
     }
 
-    /* fetch */
     public function getAllIntro () {
         try {
             $sql = "select * from intro";
@@ -88,6 +144,52 @@ class Settings {
             }
         } catch (PDOException $err) {
             echo "About: ".$err->getMessage();
+        }
+    }
+    public function getOffer () {
+        try {
+            $sql = "select * from hizmetlerimiz";
+            $stmt = $this->pdo->prepare ($sql);
+            $stmt->execute ();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($row) {
+                return new Offer ($this->pdo, $row);
+            }
+        } catch (PDOException $err) {
+            echo "Offer: ".$err->getMessage();
+        }
+    }
+    public function getAllReferences () {
+        try {
+            $sql = "select * from referanslar";
+            $stmt = $this->pdo->prepare ($sql);
+            $stmt->execute ();
+            
+            $results = [];
+            while ($row =  $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $results[] = new Referance ($this->pdo, $row);
+            }
+
+            return $results;
+        } catch (PDOException $err) {
+            echo "Offer: ".$err->getMessage();
+        }
+    }
+    public function getAllProducts () {
+        try {
+            $sql = "select * from filo";
+            $stmt = $this->pdo->prepare ($sql);
+            $stmt->execute ();
+            
+            $results = [];
+            while ($row =  $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $results[] = new Products ($this->pdo, $row);
+            }
+
+            return $results;
+        } catch (PDOException $err) {
+            echo "Offer: ".$err->getMessage();
         }
     }
 
