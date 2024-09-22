@@ -1,3 +1,4 @@
+
 <?php
 /* connection */
 try {            
@@ -7,6 +8,19 @@ try {
     echo "Function: ".$err->getMessage();
 }
 
+/* intro */
+class Intro {
+    private $pdo, $data;
+
+    public function __construct ($pdo, $input)  {
+        if (is_array($input))
+            $this->data = $input;
+    }
+
+    public function img () {
+        return $this->data["resimyol"];
+    }
+}
 
 /* settings */
 class Settings {
@@ -26,6 +40,24 @@ class Settings {
             }
         } catch (PDOException $err) {
             echo "Settings: ".$err->getMessage();
+        }
+    }
+
+    /* fetch */
+    public function getAllIntro () {
+        try {
+            $sql = "select * from intro";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute ();
+            
+            $results = [];
+            while ($row = $stmt->fetch (PDO::FETCH_ASSOC)) {
+                $results[] = new Intro ($this->pdo, $row);
+            }
+
+            return $results;
+        } catch (PDOException $err) {
+            echo "Intro: ".$err->getMessage();
         }
     }
 

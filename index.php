@@ -69,11 +69,11 @@
         <h2><?php echo $set->tagline()?></h2>
     </div>
     <div id="intro-carousel" class="owl-carousel">
-        <div class="item" style="background-image:url('img/carousel/1.jpg');"></div>
-        <div class="item" style="background-image:url('img/carousel/2.jpg');"></div>
-        <div class="item" style="background-image:url('img/carousel/3.jpg');"></div>
-        <div class="item" style="background-image:url('img/carousel/4.jpg');"></div>
-        <div class="item" style="background-image:url('img/carousel/5.jpg');"></div>
+        <?php foreach ($set->getAllIntro () as $item) {
+            echo <<<HTML
+                <div class="item" style="background-image:url('{$item->img()}');"></div>
+            HTML;
+        }?>
     </div>
 </section>
 
