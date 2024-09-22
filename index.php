@@ -192,55 +192,19 @@
    		</div>
          
         <div class="owl-carousel testimonials-carousel">
-         	<div class="testimonial-item">    
-                <p>
-                    <img src="img/sol.png" class="quote-sign-left" />
-                    Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing
-                    <img src="img/sag.png" class="quote-sign-right" />
-                </p>
-                <img src="img/yorum.jpg" class="testimonial-img" alt="" />
-                <h3>İsim</h3>
-            </div>
-            
-            <div class="testimonial-item">
-                <p>
-                    <img src="img/sol.png" class="quote-sign-left" />
-                    Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing
-                    <img src="img/sag.png" class="quote-sign-right" />
-                </p>
-                <img src="img/yorum.jpg" class="testimonial-img" alt="" />
-                <h3>İsim</h3>
-            </div>
-            
-            <div class="testimonial-item">
-                <p>
-                    <img src="img/sol.png" class="quote-sign-left" />
-                    Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing
-                    <img src="img/sag.png" class="quote-sign-right" />
-                </p>
-                <img src="img/yorum.jpg" class="testimonial-img" alt="" />
-                <h3>İsim</h3>
-            </div>
-            
-            <div class="testimonial-item">
-                <p>
-                    <img src="img/sol.png" class="quote-sign-left" />
-                    Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing
-                    <img src="img/sag.png" class="quote-sign-right" />
-                </p>
-                <img src="img/yorum.jpg" class="testimonial-img" alt="" />
-                <h3>İsim</h3>
-            </div>
-            
-            <div class="testimonial-item">
-                <p>
-                    <img src="img/sol.png" class="quote-sign-left" />
-                    Lorem ipsum dolor sit amet, consectetur adipiscingLorem ipsum dolor sit amet, consectetur adipiscing
-                    <img src="img/sag.png" class="quote-sign-right" />
-                </p>
-                <img src="img/yorum.jpg" class="testimonial-img" alt="" />
-                <h3>İsim</h3>
-            </div>
+            <?php foreach ($set->getAllTestimonials() as $item) {
+                echo <<<HTML
+                    <div class="testimonial-item">    
+                        <p>
+                            <img src="img/sol.png" class="quote-sign-left" />
+                            {$item->comment()}
+                            <img src="img/sag.png" class="quote-sign-right" />
+                        </p>
+                        <img src="img/yorum.jpg" class="testimonial-img" alt="" />
+                        <h3>{$item->name()}</h3>
+                    </div>
+                HTML;
+            }?>
         </div>
     </div>
 </section>

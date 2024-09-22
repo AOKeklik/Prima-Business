@@ -94,6 +94,20 @@ class Products {
         return $this->data["resimyol"];
     }
 }
+class Testimonial {
+    private $pdo, $data;
+    public function __construct ($pdo, $input)  {
+        if (is_array($input))
+            $this->data = $input;
+    }
+
+    public function comment () {
+        return $this->data["icerik"];
+    }
+    public function name () {
+        return $this->data["isim"];
+    }
+}
 
 /* settings */
 class Settings {
@@ -185,6 +199,22 @@ class Settings {
             $results = [];
             while ($row =  $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $results[] = new Products ($this->pdo, $row);
+            }
+
+            return $results;
+        } catch (PDOException $err) {
+            echo "Offer: ".$err->getMessage();
+        }
+    }
+    public function getAllTestimonials () {
+        try {
+            $sql = "select * from yorum";
+            $stmt = $this->pdo->prepare ($sql);
+            $stmt->execute ();
+            
+            $results = [];
+            while ($row =  $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $results[] = new Testimonial ($this->pdo, $row);
             }
 
             return $results;
