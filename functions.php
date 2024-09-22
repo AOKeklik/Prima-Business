@@ -11,7 +11,6 @@ try {
 /* intro */
 class Intro {
     private $pdo, $data;
-
     public function __construct ($pdo, $input)  {
         if (is_array($input))
             $this->data = $input;
@@ -19,6 +18,23 @@ class Intro {
 
     public function img () {
         return $this->data["resimyol"];
+    }
+}
+class About {
+    private $pdo,$data;
+    public function __construct($pdo, $input) {
+        if (is_array($input)) {
+            $this->data = $input;
+        }
+    }
+    public function img () {
+        return $this->data["resim"];
+    }
+    public function title () {
+        return $this->data["baslik"];
+    }
+    public function desc () {
+        return $this->data["icerik"];
     }
 }
 
@@ -58,6 +74,20 @@ class Settings {
             return $results;
         } catch (PDOException $err) {
             echo "Intro: ".$err->getMessage();
+        }
+    }
+    public function getAbout () {
+        try {
+            $sql = "select * from hakkimizda";
+            $stmt = $this->pdo->prepare ($sql);
+            $stmt->execute();
+            $row = $stmt->fetch (PDO::FETCH_ASSOC);
+            
+            if ($row) {
+                return new About ($this->pdo, $row);
+            }
+        } catch (PDOException $err) {
+            echo "About: ".$err->getMessage();
         }
     }
 

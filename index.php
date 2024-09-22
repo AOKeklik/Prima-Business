@@ -49,7 +49,7 @@
 <header id="header">
 	<div class="container">
     	<div id="logo" class="pull-left">
-            <h1><a href="#body" class="scrollto"><?php echo $set->logo()?></a></h1>
+            <h1><a href="#body" class="scrollto"><?php echo $set->logo()?></a></span></h1>
         </div>
         <nav id="nav-menu-container">
             <ul class="nav-menu">        
@@ -85,12 +85,11 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6 hakkimizda-img">
-                <img src="img/hakkimiz.jpg"  alt=""/>
+                <img src="<?php echo $set->getAbout()->img()?>"  alt=""/>
             </div>
             <div class="col-lg-6 content">
-                <h2>Lorem ipsum dolor sit amet, consectetur adipiscing</h2>
-                <h3>Lorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscing</h3>
-                <h3>Lorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscing</h3>
+                <h2><?php echo $set->getAbout()->title()?></h2>
+                <h3><?php echo $set->getAbout()->desc()?></h3>
             </div>
         </div>
     </div>
