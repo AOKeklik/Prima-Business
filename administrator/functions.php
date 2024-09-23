@@ -1,4 +1,5 @@
 <?php
+ob_start();
 try {
     $pdo = new PDO ("mysql:host=localhost;dbname=primabusiness;charset=utf8;", "root", "");
     $pdo->setAttribute(pdo::ATTR_ERRMODE,pdo::ERRMODE_EXCEPTION);
@@ -84,7 +85,7 @@ class Setting {
 }
 
 class Settings {
-    private $pdo;
+    private $pdo,$errorArray = [];
     public function __construct ($pdo) {
         $this->pdo = $pdo;
     }
@@ -101,6 +102,54 @@ class Settings {
         } catch (PDOException $err) {
             echo "Settings: ".$err->getMessage();
         }
+    }
+    public function updateSetting (array $inputs) {
+        try {
+            $this->validateRequire ($inputs);
+
+            if (empty ($this->errorArray)) {
+                $sql = "update ayarlar set ";
+                foreach ($inputs as $key => $val) {
+                    if ($key == array_key_last($inputs))
+                        $sql .= "$key=:$key ";
+                    else 
+                        $sql .= "$key=:$key, ";
+                }
+                $sql .= "where id=0";
+                
+                $stmt = $this->pdo->prepare ($sql);
+
+                foreach ($inputs as $key => $val) {
+                    $stmt->bindValue (":$key", $val);
+                }
+
+                return $stmt->execute ();
+            }
+
+            return false;
+        } catch (ErrorException $err) {
+            echo "UpdateSetting: ".$err->getMessage();
+        }
+    }
+
+
+    /* form validate */
+    public function formSanitizer ($input) {
+        $input = strip_tags($input);
+        $input = htmlspecialchars($input);
+        $input = trim($input);
+        return $input;
+    }
+    public function validateRequire ($inputs) {
+        foreach ($inputs as $key => $val) {
+
+            if (empty ($val)) {
+                array_push($this->errorArray, ucfirst($key)." is required!");
+            }
+        }
+    }
+    public function getError () {
+        return $this->errorArray [0];
     }
 }
 

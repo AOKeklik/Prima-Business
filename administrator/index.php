@@ -83,9 +83,62 @@
                <div class="row">
                     <div class="col-lg-12 mt-5 bg-white" style="min-height:500px;">
                         <?php if ($_GET["page"] == "settings") {
+                            $message = "";
+                            if (isset ($_POST["settings-button"])) {
+                                $data = [
+                                    'logoyazisi' => $set->formSanitizer($_POST["settings-logo"]),
+                                    'slogan'   => $set->formSanitizer($_POST["settings-tagline"]),
+                                    
+                                    // Meta bilgiler
+                                    'metatitle' => $set->formSanitizer($_POST["settings-metaTitle"]),
+                                    'metadesc'  => $set->formSanitizer($_POST["settings-metaDesc"]),
+                                    'metaovner'   => $set->formSanitizer($_POST["settings-metaOwn"]),
+                                    'metacopy' => $set->formSanitizer($_POST["settings-metaCoppy"]),
+                                
+                                    // Başlıklar
+                                    'referans_baslik' => $set->formSanitizer($_POST["settings-headingRef"]),
+                                    'filo_baslik' => $set->formSanitizer($_POST["settings-headingPro"]),
+                                    'yorum_baslik' => $set->formSanitizer($_POST["settings-headingTes"]),
+                                    'iletisim_baslik' => $set->formSanitizer($_POST["settings-headingCon"]),
+                                
+                                    // İletişim bilgileri
+                                    'telefonno' => $set->formSanitizer($_POST["settings-tel"]),
+                                    'mailadres' => $set->formSanitizer($_POST["settings-mail"]),
+                                    'adres'=> $set->formSanitizer($_POST["settings-address"]),
+                                
+                                    // Sosyal medya
+                                    'twit'  => $set->formSanitizer($_POST["settings-twitter"]),
+                                    'face' => $set->formSanitizer($_POST["settings-facebook"]),
+                                    'insta'=> $set->formSanitizer($_POST["settings-instagram"]),
+                                ];
+
+                                if ($set->updateSetting ($data)) {
+                                    $message = "<div class='col-lg-10 mx-auto mt-2 mb-4 bg-info'><p class='text-white p-2'>Successfully updated!</p></div>";
+                                } else {
+                                    $message = "<div class='col-lg-10 mx-auto mt-2 mb-4 bg-danger'><p class='text-white p-2'>{$set->getError ()}</p></div>";
+                                }
+                            }
                             
                             $logo = isset($_POST["settings-logo"]) ? $_POST["settings-logo"] : $set->getSetting()->logo();
-                            $logo = isset($_POST["settings-logo"]) ? $_POST["settings-tagline"] : $set->getSetting()->logo();
+                            $tagline = isset($_POST["settings-tagline"]) ? $_POST["settings-tagline"] : $set->getSetting()->tagline();
+
+                            $metaTitle = isset($_POST["settings-metaTitle"]) ? $_POST["settings-metaTitle"] : $set->getSetting()->metaTitle();
+                            $metaDesc = isset($_POST["settings-metaDesc"]) ? $_POST["settings-metaDesc"] : $set->getSetting()->metaDesc();
+                            $metaOwn = isset($_POST["settings-metaOwn"]) ? $_POST["settings-metaOwn"] : $set->getSetting()->metaOwn();
+                            $metaCoppy = isset($_POST["settings-metaCoppy"]) ? $_POST["settings-metaCoppy"] : $set->getSetting()->metaCoppy();
+
+                            $headingRef = isset($_POST["settings-headingRef"]) ? $_POST["settings-headingRef"] : $set->getSetting()->headingRef();
+                            $headingPro = isset($_POST["settings-headingPro"]) ? $_POST["settings-headingPro"] : $set->getSetting()->headingPro();
+                            $headingTes = isset($_POST["settings-headingTes"]) ? $_POST["settings-headingTes"] : $set->getSetting()->headingTes();
+                            $headingCon = isset($_POST["settings-headingCon"]) ? $_POST["settings-headingCon"] : $set->getSetting()->headingCon();
+
+                            $tel = isset($_POST["settings-tel"]) ? $_POST["settings-tel"] : $set->getSetting()->tel();
+                            $mail = isset($_POST["settings-mail"]) ? $_POST["settings-mail"] : $set->getSetting()->mail();
+                            $address = isset($_POST["settings-address"]) ? $_POST["settings-address"] : $set->getSetting()->address();
+
+                            $twitter = isset($_POST["settings-twitter"]) ? $_POST["settings-twitter"] : $set->getSetting()->twitter();
+                            $facebook = isset($_POST["settings-facebook"]) ? $_POST["settings-facebook"] : $set->getSetting()->facebook();
+                            $instagram = isset($_POST["settings-instagram"]) ? $_POST["settings-instagram"] : $set->getSetting()->instagram();
                             
                             ?>
 
@@ -94,7 +147,7 @@
                                     <div class="col-lg-10 mx-auto mt-2 mb-4">   
                                         <h5 class="text-info pull-left">Site ayarlari</h5>
                                     </div> 
-
+                                    <?php echo $message?>
                                     <!-- generals -->
                                     <div class="col-lg-8 mx-auto mt-2">
                                         <div class="row">
@@ -112,115 +165,11 @@
                                                 <span id="siteayarfont">Site Sloganı</span>
                                             </div>
                                             <div class="col-lg-8 p-1">
-                                                <input type="text" name="settings-tagline" class="form-control" value="" />
+                                                <input type="text" name="settings-tagline" class="form-control" value="<?php echo $tagline?>" />
                                             </div>
                                         </div>
                                     </div>
-                                    <hr style="width:100%" />
-                                    <!-- headings -->
-                                    <div class="col-lg-8 mx-auto mt-2">
-                                        <div class="row">
-                                            <div class="col-lg-4 pt-3">
-                                                <span id="siteayarfont">Referanslarımız Başlığı</span>
-                                            </div>
-                                            <div class="col-lg-8 p-1">
-                                                <input type="text" name="settings-references" class="form-control" value="" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-8 mx-auto mt-2">
-                                        <div class="row">
-                                            <div class="col-lg-4 pt-3">
-                                                <span id="siteayarfont">Filomuz Başlığı</span>
-                                            </div>
-                                            <div class="col-lg-8 p-1">
-                                                <input type="text" name="settings-products" class="form-control" value="" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-8 mx-auto mt-2">
-                                        <div class="row">
-                                            <div class="col-lg-4 pt-3">
-                                                <span id="siteayarfont">Yorumlar Başlığı</span>
-                                            </div>
-                                            <div class="col-lg-8 p-1">
-                                                <input type="text" name="settings-testimonials" class="form-control" value="" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-8 mx-auto mt-2">
-                                        <div class="row">
-                                            <div class="col-lg-4 pt-3">
-                                                <span id="siteayarfont">İletişim Başlığı</span>
-                                            </div>
-                                            <div class="col-lg-8 p-1">
-                                                <input type="text" name="settings-contacts" class="form-control" value="" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr style="width:100%" />
-                                    <!-- contacts -->
-                                    <div class="col-lg-8 mx-auto mt-2">
-                                        <div class="row">
-                                            <div class="col-lg-4 pt-3">
-                                                <span id="siteayarfont">Twitter</span>
-                                            </div>
-                                            <div class="col-lg-8 p-1">
-                                                <input type="text" name="settings-twitter" class="form-control" value="" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-8 mx-auto mt-2">
-                                        <div class="row">
-                                            <div class="col-lg-4 pt-3">
-                                                <span id="siteayarfont">Instagram</span>
-                                            </div>
-                                            <div class="col-lg-8 p-1">
-                                                <input type="text" name="settings-instagram" class="form-control" value="" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-8 mx-auto mt-2">
-                                        <div class="row">
-                                            <div class="col-lg-4 pt-3">
-                                                <span id="siteayarfont">Facebook</span>
-                                            </div>
-                                            <div class="col-lg-8 p-1">
-                                                <input type="text" name="settings-facebook" class="form-control" value="" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-8 mx-auto mt-2">
-                                        <div class="row">
-                                            <div class="col-lg-4 pt-3">
-                                                <span id="siteayarfont">Telefon Numarası</span>
-                                            </div>
-                                            <div class="col-lg-8 p-1">
-                                                <input type="text" name="settings-tel" class="form-control" value="" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-8 mx-auto mt-2">
-                                        <div class="row">
-                                            <div class="col-lg-4 pt-3">
-                                                <span id="siteayarfont">Adres</span>
-                                            </div>
-                                            <div class="col-lg-8 p-1">
-                                                <input type="text" name="settings-address" class="form-control" value="" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-8 mx-auto mt-2">
-                                        <div class="row">
-                                            <div class="col-lg-4 pt-3">
-                                                <span id="siteayarfont">Email Adresi</span>
-                                            </div>
-                                            <div class="col-lg-8 p-1">
-                                                <input type="text" name="settings-mail" class="form-control" value="" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr style="width:100%" />
+                                    <hr style="width:100%" class="bg-primary" />
                                     <!-- metas -->
                                     <div class="col-lg-8 mx-auto mt-2">
                                         <div class="row">
@@ -228,7 +177,7 @@
                                                 <span id="siteayarfont">Meta Başlığı</span>
                                             </div>
                                             <div class="col-lg-8 p-1">
-                                                <input type="text" name="settings-metaTitle" class="form-control" value="" />
+                                                <input type="text" name="settings-metaTitle" class="form-control" value="<?php echo $metaTitle?>" />
                                             </div>
                                         </div>
                                     </div>
@@ -238,7 +187,7 @@
                                                 <span id="siteayarfont">Meta Açıklaması</span>
                                             </div>
                                             <div class="col-lg-8 p-1">
-                                                <input type="text" name="settings-metaDesc" class="form-control" value="" />
+                                                <input type="text" name="settings-metaDesc" class="form-control" value="<?php echo $metaDesc?>" />
                                             </div>
                                         </div>
                                     </div>
@@ -248,7 +197,7 @@
                                                 <span id="siteayarfont">Yapımcı</span>
                                             </div>
                                             <div class="col-lg-8 p-1">
-                                                <input type="text" name="settings-metaOwn" class="form-control" value="" />
+                                                <input type="text" name="settings-metaOwn" class="form-control" value="<?php echo $metaOwn?>" />
                                             </div>
                                         </div>
                                     </div>
@@ -258,10 +207,117 @@
                                                 <span id="siteayarfont">Copywright</span>
                                             </div>
                                             <div class="col-lg-8 p-1">
-                                                <input type="text" name="settings-metaCopy" class="form-control" value="" />
+                                                <input type="text" name="settings-metaCoppy" class="form-control" value="<?php echo $metaCoppy?>" />
                                             </div>
                                         </div>
-                                    </div>    
+                                    </div> 
+                                    <hr style="width: 100%" class="bg-primary">
+                                    <!-- headings -->
+                                    <div class="col-lg-8 mx-auto mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 pt-3">
+                                                <span id="siteayarfont">Referanslarımız Başlığı</span>
+                                            </div>
+                                            <div class="col-lg-8 p-1">
+                                                <input type="text" name="settings-headingRef" class="form-control" value="<?php echo $headingRef?>" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8 mx-auto mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 pt-3">
+                                                <span id="siteayarfont">Filomuz Başlığı</span>
+                                            </div>
+                                            <div class="col-lg-8 p-1">
+                                                <input type="text" name="settings-headingPro" class="form-control" value="<?php echo $headingPro?>" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8 mx-auto mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 pt-3">
+                                                <span id="siteayarfont">Yorumlar Başlığı</span>
+                                            </div>
+                                            <div class="col-lg-8 p-1">
+                                                <input type="text" name="settings-headingTes" class="form-control" value="<?php echo $headingTes?>" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8 mx-auto mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 pt-3">
+                                                <span id="siteayarfont">İletişim Başlığı</span>
+                                            </div>
+                                            <div class="col-lg-8 p-1">
+                                                <input type="text" name="settings-headingCon" class="form-control" value="<?php echo $headingCon?>" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr style="width:100%" class="bg-primary" />
+                                    <!-- contacts -->
+                                    <div class="col-lg-8 mx-auto mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 pt-3">
+                                                <span id="siteayarfont">Telefon Numarası</span>
+                                            </div>
+                                            <div class="col-lg-8 p-1">
+                                                <input type="text" name="settings-tel" class="form-control" value="<?php echo $tel?>" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8 mx-auto mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 pt-3">
+                                                <span id="siteayarfont">Adres</span>
+                                            </div>
+                                            <div class="col-lg-8 p-1">
+                                                <input type="text" name="settings-address" class="form-control" value="<?php echo $address?>" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8 mx-auto mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 pt-3">
+                                                <span id="siteayarfont">Email Adresi</span>
+                                            </div>
+                                            <div class="col-lg-8 p-1">
+                                                <input type="text" name="settings-mail" class="form-control" value="<?php echo $mail?>" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr style="width:100%" class="bg-primary" />
+                                    <!-- socilas -->
+                                    <div class="col-lg-8 mx-auto mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 pt-3">
+                                                <span id="siteayarfont">Twitter</span>
+                                            </div>
+                                            <div class="col-lg-8 p-1">
+                                                <input type="text" name="settings-twitter" class="form-control" value="<?php echo $twitter?>" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8 mx-auto mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 pt-3">
+                                                <span id="siteayarfont">Instagram</span>
+                                            </div>
+                                            <div class="col-lg-8 p-1">
+                                                <input type="text" name="settings-instagram" class="form-control" value="<?php echo $instagram?>" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8 mx-auto mt-2">
+                                        <div class="row">
+                                            <div class="col-lg-4 pt-3">
+                                                <span id="siteayarfont">Facebook</span>
+                                            </div>
+                                            <div class="col-lg-8 p-1">
+                                                <input type="text" name="settings-facebook" class="form-control" value="<?php echo $facebook?>" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr style="width:100%" class="bg-primary" />   
                                     <!-- submit -->                         
                                     <div class="col-lg-8 mx-auto mt-2 border-bottom">
 						                <input type="submit" name="settings-button" class="btn btn-info m-1 pull-right" value="Güncelle"  />
