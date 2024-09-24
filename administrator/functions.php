@@ -1,5 +1,13 @@
 <?php
 ob_start();
+session_start();
+date_default_timezone_set("Europe/Warsaw");
+
+if (!isset ($_SESSION["userLoggedIn"]))  {
+    header ("Loacation: administrator/login");
+}
+
+
 try {
     $pdo = new PDO ("mysql:host=localhost;dbname=primabusiness;charset=utf8;", "root", "");
     $pdo->setAttribute(pdo::ATTR_ERRMODE,pdo::ERRMODE_EXCEPTION);
@@ -83,7 +91,6 @@ class Setting {
         return $this->data["insta"];
     }
 }
-
 class Settings {
     private $pdo,$errorArray = [];
     public function __construct ($pdo) {
@@ -129,6 +136,56 @@ class Settings {
             return false;
         } catch (ErrorException $err) {
             echo "UpdateSetting: ".$err->getMessage();
+        }
+    }
+    public function userLogin ($un, $pw) {
+        try {
+            $this->validateRequire (["username" => $un, "password" => $pw]);
+
+            if (!empty ($this->errorArray)) {
+                return false;
+            }
+
+            $pw = hash ("sha512", $pw);
+
+            $sql = "select * from yonetim where kulad=:un and sifre=:pw";
+            $stmt = $this->pdo->prepare ($sql);
+            $stmt->bindValue (":un", $un);
+            $stmt->bindValue (":pw", $pw);
+            $stmt->execute ();
+            
+            if ($stmt->rowCount() == 1) {
+
+                $sql = "update yonetim set aktif=1 where kulad=:un and sifre=:pw";
+                $stmt = $this->pdo->prepare ($sql);
+                $stmt->bindValue (":un", $un);
+                $stmt->bindValue (":pw", $pw);
+                $stmt->execute ();
+
+                return true;
+            }
+        
+            array_push($this->errorArray, "Username or password is incorrect");
+            return false;
+        } catch (ErrorException $err) {
+            echo "UserLogin: ".$err->getMessage();
+        }
+    }
+    public function userLogout ($un) {
+        try {
+
+            $sql = "update yonetim set aktif=0 where kulad=:un";
+            $stmt = $this->pdo->prepare ($sql);
+            $stmt->bindValue (":un", $un);
+            $stmt->execute ();
+
+            if ($stmt->rowCount() == 1) {
+                session_start();
+                session_destroy();
+                header("Location: ./");
+            }
+        } catch (ErrorException $err) {
+            echo "UserLogout: ".$err->getMessage();
         }
     }
 

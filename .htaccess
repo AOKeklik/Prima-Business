@@ -1,6 +1,8 @@
 RewriteEngine On
 
+RewriteRule ^/$ administrator/index.php?page=settings [L,QSA]
 RewriteRule ^administrator/$ administrator/index.php?page=settings [L,QSA]
+RewriteRule ^administrator/logout$ administrator/index.php?page=logout [L,QSA]
 RewriteRule ^administrator/settings$ administrator/index.php?page=settings [L,QSA]
 RewriteRule ^administrator/intro$ administrator/index.php?page=intro [L,QSA]
 RewriteRule ^administrator/about$ administrator/index.php?page=about [L,QSA]
