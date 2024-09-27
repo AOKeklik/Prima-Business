@@ -1,6 +1,6 @@
 <?php
     require_once ("functions.php");
-    
+
     header("Cache-Control: no-cache, must-revalidate");
 
     try {
@@ -188,7 +188,7 @@
             $imgName = $set->formSanitizer($_POST["imgName"]);
             $oldImgName = $set->formSanitizer($_POST["oldImgName"]);
 
-            $newFileName = "img/referans/references_".time()."_".basename($imgName);
+            $newFileName = "img/referans/references_".time().basename($imgName);
 
             if (!$set->updateReferences ($newFileName, $referencesUpdateId)) {
                 echo "update faild!";

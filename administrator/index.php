@@ -701,7 +701,7 @@
 
                 const file = e.target.files[0]
                 if (!file) return
-                const fileName = file.name
+                const fileName = ".".concat(file.name.split(".").pop())
                 const oldImgName = theImg.src.split("/").slice(-2).join("/")
                 const formData = new FormData ()
 
