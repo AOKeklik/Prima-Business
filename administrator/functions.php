@@ -171,13 +171,29 @@ class Offer {
         return $this->data["icerik4"];
     }
 }
-class Referance {
+class Reference {
     private $pdo, $data;
     public function __construct ($pdo, $input)  {
+        $this->pdo = $pdo;
         if (is_array($input))
             $this->data = $input;
+        else {
+            try {
+                $sql = "select * from referanslar where id=:id";
+                $stmt = $this->pdo->prepare ($sql);
+                $stmt->bindValue (":id", $input);
+                $stmt->execute ();
+                
+                $this->data = $stmt->fetch(PDO::FETCH_ASSOC);
+            } catch (ErrorException $err) {
+                echo "Intro: ".$err->getMessage();
+            }
+        }   
     }
 
+    public function id () {
+        return $this->data["id"];
+    }
     public function img () {
         return $this->data["resimyol"];
     }
@@ -320,6 +336,7 @@ class Settings {
             echo "UpdateSetting: ".$err->getMessage();
         }
     }
+    /* INTRO */
     public function getAllIntro () {
         try {
             $sql = "select * from intro";
@@ -371,6 +388,7 @@ class Settings {
             echo "AddIntro : ".$err->getMessage();
         }
     }
+    /* FILO */
     public function getAllFilo () {
         try {
             $sql = "select * from filo";
@@ -420,6 +438,58 @@ class Settings {
             return $this->pdo->lastInsertId();
         } catch (ErrorException $err) {
             echo "AddFilo : ".$err->getMessage();
+        }
+    }
+    /* REFERENCES */
+    public function getAllReferences () {
+        try {
+            $sql = "select * from referanslar";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute ();
+            
+            $results = [];
+            while ($row = $stmt->fetch (PDO::FETCH_ASSOC)) {
+                $results[] = new Reference ($this->pdo, $row);
+            }
+
+            return $results;
+        } catch (PDOException $err) {
+            echo "Intro: ".$err->getMessage();
+        }
+    }
+    public function updateReferences  ($img, $id) {
+        try {
+            $sql = "update referanslar set resimyol=:img where id=:id";  
+            $stmt = $this->pdo->prepare ($sql);
+            $stmt->bindValue (":img", $img);
+            $stmt->bindValue (":id", $id);
+
+            return $stmt->execute ();
+        } catch (ErrorException $err) {
+            echo "UpdateFilo: ".$err->getMessage();
+        }
+    }
+    public function deleteReferences  ($id) {
+        try {
+            $sql = "delete from referanslar where id=:id";  
+            $stmt = $this->pdo->prepare ($sql);
+            $stmt->bindValue (":id", $id);
+
+            return $stmt->execute ();
+        } catch (ErrorException $err) {
+            echo "DeleteFilo: ".$err->getMessage();
+        }
+    }
+    public function addReferences  ($path) {
+        try {
+            $sql = "insert into referanslar (resimyol)value(:path)";  
+            $stmt = $this->pdo->prepare ($sql);
+            $stmt->bindValue (":path", $path);
+            $stmt->execute ();
+
+            return $this->pdo->lastInsertId();
+        } catch (ErrorException $err) {
+            echo "AddReferences : ".$err->getMessage();
         }
     }
 

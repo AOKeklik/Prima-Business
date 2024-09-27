@@ -1,5 +1,7 @@
 <?php
     require_once ("functions.php");
+    
+    header("Cache-Control: no-cache, must-revalidate");
 
     try {
         /* intro */
@@ -176,6 +178,95 @@
                 unlink($imagePath);
 
                 if ($set->deleteFilo ($_POST["filoDeleteId"])) {
+                    return "secess";
+                }
+            }
+        }
+        /* references */
+        if (isset ($_POST["referencesUpdateId"])) {
+            $referencesUpdateId = $set->formSanitizer($_POST["referencesUpdateId"]);
+            $imgName = $set->formSanitizer($_POST["imgName"]);
+            $oldImgName = $set->formSanitizer($_POST["oldImgName"]);
+
+            $newFileName = "img/referans/references_".time()."_".basename($imgName);
+
+            if (!$set->updateReferences ($newFileName, $referencesUpdateId)) {
+                echo "update faild!";
+                return;
+            };
+
+
+            if (0 < $_FILES["file"]["error"]) {
+                echo "Error: ".$_FILES["file"]["error"]."<br>";
+            } else {
+                $rootDirectory = $_SERVER["DOCUMENT_ROOT"]."/Prima-Business/";
+                $pathDirectory = $rootDirectory."img/referans/";
+                if (!file_exists($pathDirectory) && !is_dir($pathDirectory)) {
+                    mkdir($pathDirectory, 0777, true);
+                }
+
+                $imagePath = $pathDirectory.basename($oldImgName);
+
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+
+                move_uploaded_file($_FILES["file"]["tmp_name"], $rootDirectory.$newFileName);
+                
+
+                echo $newFileName;
+            }
+        }
+        if (isset ($_FILES["referencesAddFile"])) {
+
+            $fileName = "img/referans/references_".time().basename($_POST["imgName"]);
+
+            $referencesId = $set->addReferences ($fileName);
+            $path = Constants::$ROOT.$fileName;
+
+            $rootDirectory = $_SERVER["DOCUMENT_ROOT"]."/Prima-Business/";
+            $pathDirectory = $rootDirectory."img/referans/";
+
+            if (!file_exists($pathDirectory) && !is_dir($pathDirectory)) {
+                mkdir($pathDirectory, 0777, true);
+            }
+
+            move_uploaded_file($_FILES["referencesAddFile"]["tmp_name"], $rootDirectory.$fileName);
+
+
+            $html = <<<HTML
+                <div class="col-lg-4">
+                    <div class="row border border-light p-1 m-1">
+                        <div class="col-lg-12">
+                            <img src="{$path}">
+                        </div>
+
+                        <div class="col-6 text-right">
+                            <label for="references-update-img-{$referencesId}">
+                                <span href="#" class="fa fa-edit m-2 text-success" style="font-size:25px;cursor: pointer;"></span>
+                                <input onchange="updateReferencesImage(event, {$referencesId})" type="file" name="references-update-img" id="references-update-img-{$referencesId}" style="display: none">
+                            </label>
+                        </div>
+
+                        <div class="col-6 text-left">
+                            <span onclick="deleteReferencesImage(event, {$referencesId})" class="fa fa-close m-2 text-danger" style="font-size:25px;cursor: pointer;"></span>
+                        </div>
+                    </div>
+                </div>
+            HTML;
+
+            echo $html;
+        }
+        if (isset ($_POST["referencesDeleteId"])) {
+            $pathDirectory = $_SERVER["DOCUMENT_ROOT"]."/Prima-Business/img/referans/";
+
+            $references = new Reference ($pdo, $_POST["referencesDeleteId"]);
+            $imagePath = $_SERVER["DOCUMENT_ROOT"]."/Prima-Business/".$references->img();
+
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+
+                if ($set->deleteReferences ($_POST["referencesDeleteId"])) {
                     return "secess";
                 }
             }

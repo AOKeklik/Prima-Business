@@ -370,7 +370,36 @@
 
                             <?php } else if ($_GET["page"] == "references") {?>
                             
-                                <h1>References</h1> 
+                                <div class="row text-center">
+                                    <div class="col-lg-12 border-bottom container">
+                                        <h3 class="float-left mt-3 text-info">REFERANSLARIMIZ RESİMLERİ</h3>
+                                        <label for="references-add-img" class="float-right">
+                                            <span class="btn btn-success m-2" style="cursor: pointer;">+</span>
+                                            <input onchange="addReferencesImage(event)" type="file" name="references-add-img" id="references-add-img" style="display: none">
+                                        </label>
+                                    </div>            
+                                
+                                    <?php foreach ($set->getAllReferences() as $item) {?>
+                                        <div class="col-lg-4">
+                                            <div class="row border border-light p-1 m-1">
+                                                <div class="col-lg-12">
+                                                    <img src="../<?php echo $item->img()?>">
+                                                </div>
+
+                                                <div class="col-6 text-right">
+                                                    <label for="references-update-img-<?php echo $item->id()?>">
+                                                        <span href="#" class="fa fa-edit m-2 text-success" style="font-size:25px;cursor: pointer;"></span>
+                                                        <input onchange="updateReferencesImage(event, <?php echo $item->id()?>)" type="file" id="references-update-img-<?php echo $item->id()?>" name="references-update-img" style="display: none">
+                                                    </label>
+                                                </div>
+
+                                                <div class="col-6 text-left">
+                                                    <span onclick="deleteReferencesImage(event, <?php echo $item->id()?>)" class="fa fa-close m-2 text-danger" style="font-size:25px;cursor: pointer;"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php }?>
+                                </div>
                             
                             <?php } else if ($_GET["page"] == "products") {?>
                             
@@ -658,6 +687,95 @@
                 data: formData,
                 success: data => {
                     theParent.insertAdjacentHTML ("beforeend", data)
+                }
+            })
+        }
+        /* references */
+        function updateReferencesImage (e, referencesUpdateId) {
+            try {
+                e.preventDefault ()
+
+                const theNode = e.target
+                const theParent = theNode.closest(".col-lg-4")
+                const theImg = theParent.querySelector("img");
+
+                const file = e.target.files[0]
+                if (!file) return
+                const fileName = file.name
+                const oldImgName = theImg.src.split("/").slice(-2).join("/")
+                const formData = new FormData ()
+
+                formData.append("file", file)
+                formData.append("referencesUpdateId", referencesUpdateId)
+                formData.append("imgName", fileName)
+                formData.append("oldImgName", oldImgName)
+
+                if (fileName) {
+                    const res = $.ajax({
+                        url: ROOT_ADMIN.concat("ajax.php"),
+                        type: "POST",
+                        contentType: false, 
+                        processData: false,
+                        data: formData,
+                        success: function (data) {
+                            console.log(data)
+
+                            if (theImg) {
+                                theImg.src = ROOT+data
+                            }
+                        }
+                    })
+                }
+            } catch (err) {
+                console.log(err)
+            }
+        }
+        function deleteReferencesImage (e, referencesDeleteId) {
+            try {
+                e.preventDefault ()
+            
+                const theNode = e.target
+                const theParent = theNode.closest(".col-lg-4")
+                const theImg = theParent.querySelector("img")
+                const formData = new FormData ()
+
+                formData.append("referencesDeleteId", referencesDeleteId)
+
+                $.ajax ({
+                    url: ROOT_ADMIN.concat("ajax.php"), 
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: formData, 
+                    success: data => {
+                        theParent.remove ()
+                    }
+                }) 
+            } catch (err) {
+                console.log(err)
+            }    
+        }
+        function addReferencesImage (e) {
+            e.preventDefault ()
+
+            const theNode = e.target
+            const theParent = theNode.closest(".row.text-center")
+            const file = theNode.files[0]
+            const fileName = ".".concat(file.name.split(".").pop())
+            const formData = new FormData ()
+
+            formData.append ("imgName", fileName)
+            formData.append ("referencesAddFile", file)
+            
+            $.ajax ({
+                url: ROOT_ADMIN.concat("ajax.php"),
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: data => {
+                    theParent.insertAdjacentHTML ("beforeend", data)
+                    console.log(data)
                 }
             })
         }
