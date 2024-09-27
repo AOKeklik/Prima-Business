@@ -182,13 +182,29 @@ class Referance {
         return $this->data["resimyol"];
     }
 }
-class Products {
+class Filo {
     private $pdo, $data;
     public function __construct ($pdo, $input)  {
+        $this->pdo = $pdo;
         if (is_array($input))
             $this->data = $input;
+        else {
+            try {
+                $sql = "select * from filo where id=:id";
+                $stmt = $this->pdo->prepare ($sql);
+                $stmt->bindValue (":id", $input);
+                $stmt->execute ();
+                
+                $this->data = $stmt->fetch(PDO::FETCH_ASSOC);
+            } catch (ErrorException $err) {
+                echo "Filo: ".$err->getMessage();
+            }
+        }   
     }
 
+    public function id () {
+        return $this->data["id"];
+    }
     public function img () {
         return $this->data["resimyol"];
     }
@@ -353,6 +369,57 @@ class Settings {
             return $this->pdo->lastInsertId();
         } catch (ErrorException $err) {
             echo "AddIntro : ".$err->getMessage();
+        }
+    }
+    public function getAllFilo () {
+        try {
+            $sql = "select * from filo";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute ();
+            
+            $results = [];
+            while ($row = $stmt->fetch (PDO::FETCH_ASSOC)) {
+                $results[] = new Intro ($this->pdo, $row);
+            }
+
+            return $results;
+        } catch (PDOException $err) {
+            echo "Intro: ".$err->getMessage();
+        }
+    }
+    public function updateFilo  ($img, $id) {
+        try {
+            $sql = "update filo set resimyol=:img where id=:id";  
+            $stmt = $this->pdo->prepare ($sql);
+            $stmt->bindValue (":img", $img);
+            $stmt->bindValue (":id", $id);
+
+            return $stmt->execute ();
+        } catch (ErrorException $err) {
+            echo "UpdateFilo: ".$err->getMessage();
+        }
+    }
+    public function deleteFilo  ($id) {
+        try {
+            $sql = "delete from filo where id=:id";  
+            $stmt = $this->pdo->prepare ($sql);
+            $stmt->bindValue (":id", $id);
+
+            return $stmt->execute ();
+        } catch (ErrorException $err) {
+            echo "DeleteFilo: ".$err->getMessage();
+        }
+    }
+    public function addFilo  ($path) {
+        try {
+            $sql = "insert into filo (resimyol)value(:path)";  
+            $stmt = $this->pdo->prepare ($sql);
+            $stmt->bindValue (":path", $path);
+            $stmt->execute ();
+
+            return $this->pdo->lastInsertId();
+        } catch (ErrorException $err) {
+            echo "AddFilo : ".$err->getMessage();
         }
     }
 

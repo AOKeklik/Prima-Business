@@ -374,7 +374,36 @@
                             
                             <?php } else if ($_GET["page"] == "products") {?>
                             
-                                <h1>Products</h1>
+                                <div class="row text-center">
+                                    <div class="col-lg-12 border-bottom container">
+                                        <h3 class="float-left mt-3 text-info">FILO RESİMLERİ</h3>
+                                        <label for="filo-add-img" class="float-right">
+                                            <span class="btn btn-success m-2" style="cursor: pointer;">+</span>
+                                            <input onchange="addFiloImage(event)" type="file" name="filo-add-img" id="filo-add-img" style="display: none">
+                                        </label>
+                                    </div>            
+                                
+                                    <?php foreach ($set->getAllFilo() as $item) {?>
+                                        <div class="col-lg-4">
+                                            <div class="row border border-light p-1 m-1">
+                                                <div class="col-lg-12">
+                                                    <img src="../<?php echo $item->img()?>">
+                                                </div>
+
+                                                <div class="col-6 text-right">
+                                                    <label for="filo-update-img-<?php echo $item->id()?>">
+                                                        <span href="#" class="fa fa-edit m-2 text-success" style="font-size:25px;cursor: pointer;"></span>
+                                                        <input onchange="updateFiloImage(event, <?php echo $item->id()?>)" type="file" id="filo-update-img-<?php echo $item->id()?>" name="filo-update-img" style="display: none">
+                                                    </label>
+                                                </div>
+
+                                                <div class="col-6 text-left">
+                                                    <span onclick="deleteFiloImage(event, <?php echo $item->id()?>)" class="fa fa-close m-2 text-danger" style="font-size:25px;cursor: pointer;"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php }?>
+                                </div>
 
                             <?php } else if ($_GET["page"] == "testimonials") {?>
 
@@ -455,6 +484,8 @@
     <script>
         const ROOT = "http://localhost/Prima-Business/"
         const ROOT_ADMIN = "http://localhost/Prima-Business/administrator/"
+
+        /* intro */
         function updateIntroImage (e, introUpdateId) {
             try {
                 e.preventDefault ()
@@ -542,7 +573,94 @@
                 }
             })
         }
+        /* filo */
+        function updateFiloImage (e, filoUpdateId) {
+            try {
+                e.preventDefault ()
 
+                const theNode = e.target
+                const theParent = theNode.closest(".col-lg-4")
+                const theImg = theParent.querySelector("img");
+
+                const file = e.target.files[0]
+                if (!file) return
+                const fileName = file.name
+                const oldImgName = theImg.src.split("/").slice(-2).join("/")
+                const formData = new FormData ()
+
+                formData.append("file", file)
+                formData.append("filoUpdateId", filoUpdateId)
+                formData.append("imgName", fileName)
+                formData.append("oldImgName", oldImgName)
+
+                if (fileName) {
+                    const res = $.ajax({
+                        url: ROOT_ADMIN.concat("ajax.php"),
+                        type: "POST",
+                        contentType: false, 
+                        processData: false,
+                        data: formData,
+                        success: function (data) {
+                            console.log(data)
+
+                            if (theImg) {
+                                theImg.src = ROOT+data
+                            }
+                        }
+                    })
+                }
+            } catch (err) {
+                console.log(err)
+            }
+        }
+        function deleteFiloImage (e, filoDeleteId) {
+            try {
+                e.preventDefault ()
+            
+                const theNode = e.target
+                const theParent = theNode.closest(".col-lg-4")
+                const theImg = theParent.querySelector("img")
+                const formData = new FormData ()
+
+                formData.append("filoDeleteId", filoDeleteId)
+
+                $.ajax ({
+                    url: ROOT_ADMIN.concat("ajax.php"), 
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: formData, 
+                    success: data => {
+                        theParent.remove ()
+                    }
+                }) 
+            } catch (err) {
+                console.log(err)
+            }    
+        }
+        function addFiloImage (e) {
+            e.preventDefault ()
+
+            const theNode = e.target
+            const theParent = theNode.closest(".row.text-center")
+            const file = theNode.files[0]
+            const fileName = file.name
+            const formData = new FormData ()
+
+            formData.append ("imgName", fileName)
+            formData.append ("filoAddFile", file)
+            
+            $.ajax ({
+                url: ROOT_ADMIN.concat("ajax.php"),
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: data => {
+                    theParent.insertAdjacentHTML ("beforeend", data)
+                }
+            })
+        }
     </script>
 </body>
 
