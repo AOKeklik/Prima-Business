@@ -121,10 +121,18 @@ class Intro {
 }
 class About {
     private $pdo,$data;
-    public function __construct($pdo, $input) {
-        if (is_array($input)) {
-            $this->data = $input;
-        }
+    public function __construct($pdo) {
+        $this->pdo = $pdo;
+
+        try {
+            $sql = "select * from hakkimizda limit 1";
+            $stmt = $this->pdo->prepare ($sql);
+            $stmt->execute ();
+            
+            $this->data = $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (ErrorException $err) {
+            echo "Intro: ".$err->getMessage();
+        } 
     }
     public function img () {
         return $this->data["resim"];
@@ -294,6 +302,7 @@ class Settings {
             echo "UserLogout: ".$err->getMessage();
         }
     }
+    /* SETTINGS */
     public function getSetting () {
         try {
             $sql = "select * from ayarlar";
@@ -386,6 +395,45 @@ class Settings {
             return $this->pdo->lastInsertId();
         } catch (ErrorException $err) {
             echo "AddIntro : ".$err->getMessage();
+        }
+    }
+    /* ABOUT */
+    public function updateAboutImg  ($img) {
+        try {
+            $sql = "update hakkimizda set resim=:img limit 1";  
+            $stmt = $this->pdo->prepare ($sql);
+            $stmt->bindValue (":img", $img);
+
+            return $stmt->execute ();
+        } catch (ErrorException $err) {
+            echo "updateAboutImg: ".$err->getMessage();
+        }
+    }
+    public function updateAboutContent  ($inputs) {
+        try {
+            $this->validateRequire ($inputs);
+
+            if (empty ($this->errorArray)) {
+                $sql = "update hakkimizda set ";
+
+                foreach ($inputs as $key => $val) {
+                    if ($key == array_key_last($inputs))
+                        $sql .= "$key=:$key";
+                    else 
+                        $sql .= "$key=:$key, ";
+                }
+                $stmt = $this->pdo->prepare ($sql);
+
+                foreach ($inputs as $key => $val) {
+                    $stmt->bindValue (":$key", $val);
+                }
+
+                return $stmt->execute ();
+            }
+
+            return false;
+        } catch (ErrorException $err) {
+            echo "updateAboutContent: ".$err->getMessage();
         }
     }
     /* FILO */

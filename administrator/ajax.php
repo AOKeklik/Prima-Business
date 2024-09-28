@@ -93,6 +93,40 @@
 
             echo $html;
         }
+        /* about */
+        if (isset ($_FILES["aboutFile"])) {
+            $imgName = $set->formSanitizer($_POST["imgName"]);
+            $oldImgName = $set->formSanitizer($_POST["oldImgName"]);
+
+            $newFileName = "img/about_".time().basename($imgName);
+
+            if (!$set->updateAboutImg ($newFileName)) {
+                echo "update faild!";
+                return;
+            };
+
+
+            if (0 < $_FILES["aboutFile"]["error"]) {
+                echo "Error: ".$_FILES["aboutFile"]["error"]."<br>";
+            } else {
+                $rootDirectory = $_SERVER["DOCUMENT_ROOT"]."/Prima-Business/";
+                $pathDirectory = $rootDirectory."img/";
+                if (!file_exists($pathDirectory) && !is_dir($pathDirectory)) {
+                    mkdir($pathDirectory, 0777, true);
+                }
+
+                $imagePath = $pathDirectory.basename($oldImgName);
+
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+
+                move_uploaded_file($_FILES["aboutFile"]["tmp_name"], $rootDirectory.$newFileName);
+                
+
+                echo $newFileName;
+            }
+        }
         /* filo */
         if (isset ($_POST["filoUpdateId"])) {
             $filoUpdateId = $set->formSanitizer($_POST["filoUpdateId"]);

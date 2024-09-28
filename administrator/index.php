@@ -144,7 +144,7 @@
                                 
                                 ?>
 
-                                <form action="<?php $_SERVER["PHP_SELF"]?>" method="post">
+                                <form action="<?php $_SERVER["PHP_SELF"]?>" method="post" class="py-5">
                                     <div class="row">
                                         <div class="col-lg-10 mx-auto mt-2 mb-4">   
                                             <h5 class="text-info pull-left">Site ayarlari</h5>
@@ -171,7 +171,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <hr style="width:100%" class="bg-primary" />
+                                        <hr style="width:100%" class="border border-light" />
                                         <!-- metas -->
                                         <div class="col-lg-8 mx-auto mt-2">
                                             <div class="row">
@@ -213,7 +213,7 @@
                                                 </div>
                                             </div>
                                         </div> 
-                                        <hr style="width: 100%" class="bg-primary">
+                                        <hr style="width: 100%" class="border border-light">
                                         <!-- headings -->
                                         <div class="col-lg-8 mx-auto mt-2">
                                             <div class="row">
@@ -255,7 +255,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <hr style="width:100%" class="bg-primary" />
+                                        <hr style="width:100%" class="border border-light" />
                                         <!-- contacts -->
                                         <div class="col-lg-8 mx-auto mt-2">
                                             <div class="row">
@@ -287,7 +287,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <hr style="width:100%" class="bg-primary" />
+                                        <hr style="width:100%" class="border border-light" />
                                         <!-- socilas -->
                                         <div class="col-lg-8 mx-auto mt-2">
                                             <div class="row">
@@ -318,10 +318,9 @@
                                                     <input type="text" name="settings-facebook" class="form-control" value="<?php echo $facebook?>" />
                                                 </div>
                                             </div>
-                                        </div>
-                                        <hr style="width:100%" class="bg-primary" />   
+                                        </div>  
                                         <!-- submit -->                         
-                                        <div class="col-lg-8 mx-auto mt-2 border-bottom">
+                                        <div class="col-lg-8 mx-auto mt-2">
                                             <input type="submit" name="settings-button" class="btn btn-info m-1 pull-right" value="Güncelle"  />
                                         </div> 
                                     </div>
@@ -360,9 +359,64 @@
                                     <?php }?>
                                 </div>
 
-                            <?php } else if ($_GET["page"] == "about") {?>
+                            <?php } else if ($_GET["page"] == "about") {
+                                    $about = new About ($pdo);
 
-                                <h1>About</h1>
+                                    $message = "";
+
+                                    if (isset ($_POST["guncel"])) {
+                                        $data = [
+                                            "baslik" => $set->formSanitizer($_POST["baslik"]),
+                                            "icerik" => $set->formSanitizer($_POST["icerik"])
+                                        ];
+                                        
+                                        if ($set->updateAboutContent($data)) {
+                                            $message = "<div class='col-lg-10 mx-auto mt-2 mb-4 bg-info'><p class='text-white p-2'>Successfully updated!</p></div>";
+                                        } else {
+                                            $message = "<div class='col-lg-10 mx-auto mt-2 mb-4 bg-danger'><p class='text-white p-2'>{$set->getError ()}</p></div>";
+                                        }
+                                    }
+
+                                    $baslik = isset ($_POST["baslik"]) ? $_POST["baslik"] : $about->title();
+                                    $icerik = isset ($_POST["icerik"]) ? $_POST["icerik"] : $about->desc();
+                                ?>
+
+                                <div class="row text-center">
+                                    <div class="col-lg-12 border-bottom"><h3 class="mt-3 text-info">HAKKIMIZDA AYARLARI</h3>
+                                </div>
+
+                                <?php echo $message?>
+
+                                <div class="col-lg-6 mx-auto">
+                                    <form action="" method="post" enctype="multipart/form-data" class="row py-5 m-1">
+                                        <div class="col-lg-3 bg-light" id="hakkimizdayazilar">Resim</div>
+
+                                        <div class="col-lg-9">
+                                            <img src="../<?php echo $about->img()?>">
+                                            <input onchange="updateAboutImage(event)" type="file" name="dosya">
+                                        </div>
+
+                                        <hr style="width:100%" class="border border-light" />
+
+                                        <div class="col-lg-3 bg-light pt-3" id="hakkimizdayazilarn">Başlık</div>
+
+                                        <div class="col-lg-9">
+                                            <input type="text" name="baslik" class="form-control m-2" value="<?php echo $baslik?>">
+                                        </div>
+
+                                        <hr style="width:100%" class="border border-light" />
+
+                                        <div class="col-lg-3 bg-light" id="hakkimizdayazilar">İçerik</div>
+
+                                        <div class="col-lg-9">
+                                            <textarea name="icerik" class="form-control" rows="8"><?php echo $icerik?></textarea>
+                                        </div>
+
+                                        <div class="col-lg-12">
+                                            <input type="submit" name="guncel" value="GÜNCELLE" class="btn btn-primary m-2">
+                                        </div>
+                                    </form>
+                                </div>
 
                             <?php } else if ($_GET["page"] == "offers") {?>
 
@@ -602,6 +656,47 @@
                 }
             })
         }
+        /* about */
+        function updateAboutImage (e) {
+            try {
+                e.preventDefault ()
+
+                const theNode = e.target
+                const theParent = theNode.closest(".col-lg-9")
+                const theImg = theParent.querySelector("img");
+
+                const file = e.target.files[0]
+                if (!file) return
+                const fileName = ".".concat(file.name.split(".").pop())
+                const oldImgName = theImg.src.split("/").slice(-2).join("/")
+                const formData = new FormData ()
+
+                formData.append("aboutFile", file)
+                formData.append("imgName", fileName)
+                formData.append("oldImgName", oldImgName)
+
+                if (fileName) {
+                    const res = $.ajax({
+                        url: ROOT_ADMIN.concat("ajax.php"),
+                        type: "POST",
+                        contentType: false, 
+                        processData: false,
+                        data: formData,
+                        success: function (data) {
+                            console.log(data)
+
+                            if (theImg) {
+                                theImg.src = ROOT+data
+                            }
+                        }
+                    })
+                }
+
+                theNode.value = ""
+            } catch (err) {
+                console.log(err)
+            }
+        }
         /* filo */
         function updateFiloImage (e, filoUpdateId) {
             try {
@@ -778,6 +873,8 @@
                     console.log(data)
                 }
             })
+
+            theNode.value = ''
         }
     </script>
 </body>
