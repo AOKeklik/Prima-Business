@@ -145,38 +145,35 @@ class About {
     }
 }
 class Offer {
-    private $pdo,$data;
-    public function __construct($pdo, $input) {
-        if (is_array($input)) {
+    private $pdo, $data;
+    public function __construct ($pdo, $input)  {
+        $this->pdo = $pdo;
+        if (is_array($input))
             $this->data = $input;
-        }
+        else {
+            try {
+                $sql = "select * from hizmetlerimiz where id=:id";
+                $stmt = $this->pdo->prepare ($sql);
+                $stmt->bindValue (":id", $input);
+                $stmt->execute ();
+                
+                $this->data = $stmt->fetch(PDO::FETCH_ASSOC);
+            } catch (ErrorException $err) {
+                echo "Intro: ".$err->getMessage();
+            }
+        }   
+    }
+    public function id () {
+        return $this->data["id"];
+    }
+    public function icon () {
+        return $this->data["icon"];
+    }
+    public function title () {
+        return $this->data["baslik"];
     }
     public function desc () {
-        return $this->data["hizmetler_baslik"];
-    }
-    public function firstTitle () {
-        return $this->data["baslik1"];
-    }
-    public function firstDesc () {
-        return $this->data["icerik1"];
-    }
-    public function secondTitle () {
-        return $this->data["baslik2"];
-    }
-    public function secondDesc () {
-        return $this->data["icerik2"];
-    }
-    public function thirdTitle () {
-        return $this->data["baslik3"];
-    }
-    public function thirdDesc () {
-        return $this->data["icerik3"];
-    }
-    public function forthTitle () {
-        return $this->data["baslik4"];
-    }
-    public function forthDesc () {
-        return $this->data["icerik4"];
+        return $this->data["icerik"];
     }
 }
 class Reference {
@@ -434,6 +431,98 @@ class Settings {
             return false;
         } catch (ErrorException $err) {
             echo "updateAboutContent: ".$err->getMessage();
+        }
+    }
+    /* OFFER */
+    public function getAllOffer () {
+        try {
+            $sql = "select * from hizmetlerimiz";
+            $stmt = $this->pdo->prepare ($sql);
+            $stmt->execute ();
+            
+            $results = [];
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $results[] = new Offer ($this->pdo, $row);
+            }
+
+            return $results;
+        } catch (PDOException $err) {
+            echo "Offer: ".$err->getMessage();
+        }
+    }
+    public function updateOffer (array $inputs, $offerId) {
+        try {
+            $this->validateRequire ($inputs);
+
+            if (empty ($this->errorArray)) {
+                $sql = "update hizmetlerimiz set ";
+                foreach ($inputs as $key => $val) {
+                    if ($key == array_key_last($inputs))
+                        $sql .= "$key=:$key ";
+                    else 
+                        $sql .= "$key=:$key, ";
+                }
+                $sql .= "where id=:id";
+                
+                $stmt = $this->pdo->prepare ($sql);
+
+                foreach ($inputs as $key => $val) {
+                    $stmt->bindValue (":$key", $val);
+                }
+                $stmt->bindValue (":id", $offerId);
+
+                return $stmt->execute ();
+            }
+
+            return false;
+        } catch (ErrorException $err) {
+            echo "UpdateSetting: ".$err->getMessage();
+        }
+    }
+    public function addOffer (array $inputs) {
+        try {
+            $this->validateRequire ($inputs);
+
+            if (empty ($this->errorArray)) {
+                $sql = "insert into hizmetlerimiz (";
+                foreach ($inputs as $key => $val) {
+                    if ($key == array_key_last($inputs))
+                        $sql .= "$key ";
+                    else 
+                        $sql .= "$key, ";
+                }
+                $sql .= ")value(";
+
+                foreach ($inputs as $key => $val) {
+                    if ($key == array_key_last($inputs))
+                        $sql .= ":$key)";
+                    else 
+                        $sql .= ":$key, ";
+                }                
+                $stmt = $this->pdo->prepare ($sql);
+
+                foreach ($inputs as $key => $val) {
+                    $stmt->bindValue (":$key", $val);
+                }
+                $stmt->execute ();
+
+                return $this->pdo->lastInsertId();
+            }
+
+            return false;
+        } catch (ErrorException $err) {
+            echo "addOffer: ".$err->getMessage();
+        }
+    }
+    public function deleteOffer  ($id) {
+        try {
+            $sql = "delete from hizmetlerimiz where id=:id";  
+            $stmt = $this->pdo->prepare ($sql);
+            $stmt->bindValue (":id", $id);
+
+            return $stmt->execute ();
+        } catch (ErrorException $err) {
+            echo "DeleteFilo: ".$err->getMessage();
         }
     }
     /* FILO */

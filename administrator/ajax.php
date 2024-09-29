@@ -127,6 +127,64 @@
                 echo $newFileName;
             }
         }
+        /* offer */
+        if (isset ($_POST["offerIcon"])) {
+            $data = [
+                "icon" => $set->formSanitizer($_POST["offerIcon"]),
+                "baslik" => $set->formSanitizer($_POST["offerTitle"]),
+                "icerik" => $set->formSanitizer($_POST["offerContent"])
+            ];
+
+            $newOffer = $set->addOffer ($data);
+
+            if (!$newOffer) {
+                echo $set->getError();
+                return;
+            }
+
+            $findOffer = new Offer ($pdo, $newOffer);
+
+
+            $html = <<<HTML
+                <div class="col-lg-4 mx-auto">
+                    <form action="" method="post" class="row card-bordered p-1 m-1 bg-light">
+                        <div class="col-lg-2 pt-3">Icon</div>
+                        <div class="col-lg-12 p-2">
+                            <input type="text" name="icon_{$findOffer->id()}" class="form-control" value="{$findOffer->icon()}" />                                    
+                        </div>
+
+                        <div class="col-lg-2 pt-3">Başlık</div>
+                        <div class="col-lg-12 p-2">
+                            <input type="text" name="baslik_{$findOffer->id()}" class="form-control" value="{$findOffer->title()}" />                                    
+                        </div>
+
+                        <div class="col-lg-12 p-2 ">İçerik</div>
+                        <div class="col-lg-12 p-2">
+                            <textarea name="icerik_{$findOffer->id()}" rows="5" class="form-control">{$findOffer->desc()}</textarea>
+                        </div>
+                        <div class="col-lg-12 p-2">
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="submit" name="buton_{$findOffer->id()}" value="Guncelle" class="btn btn-primary"/>
+                                </div>
+                                <div class="col-6">  
+                                    <span onclick="deleteOfferContent(event, {$findOffer->id()})" class="fa fa-close m-2 text-danger" style="font-size:25px;cursor: pointer;"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            HTML;
+
+            echo $html;
+        }
+        if (isset ($_POST["offerDeleteId"])) {
+            $offerDeleteId = $set->formSanitizer($_POST["offerDeleteId"]);
+
+            if ($set->deleteOffer ($offerDeleteId)) {
+                return "secess";
+            }
+        }
         /* filo */
         if (isset ($_POST["filoUpdateId"])) {
             $filoUpdateId = $set->formSanitizer($_POST["filoUpdateId"]);

@@ -420,8 +420,104 @@
 
                             <?php } else if ($_GET["page"] == "offers") {?>
 
-                                <h1>Offers</h1>
+                                <div id="offer-parent" class="row text-center">
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <h4 class="col-6 mt-3 text-info mb-2">
+                                                Hizmetler Ayarları
+                                            </h4> 
+                                            <div class="col-6 flex-row justify-content-end align-content-center">
+                                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+                                                    <i class="ti-plus text-white"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
 
+                                    <?php foreach ($set->getAllOffer() as $item):
+                                        $message = "";
+                                        if (isset ($_POST["buton_{$item->id()}"])) {
+                                            $data = [
+                                                "icon" => $set->formSanitizer($_POST["icon_{$item->id()}"]),
+                                                "baslik" => $set->formSanitizer($_POST["baslik_{$item->id()}"]),
+                                                "icerik" => $set->formSanitizer($_POST["icerik_{$item->id()}"])
+                                            ];
+
+                                            if ($set->updateOffer ($data, $item->id())) {
+                                                $message = "<div class='col-lg-12 mx-auto mt-2 mb-4 bg-info'><p class='text-white p-2'>Successfully updated!</p></div>";
+                                            } else {
+                                                $message = "<div class='col-lg-12 mx-auto mt-2 mb-4 bg-danger'><p class='text-white p-2'>{$set->getError ()}</p></div>";
+                                            }
+                                        }
+                                        $icon = isset ($_POST["icon_{$item->id()}"]) ? $_POST["icon_{$item->id()}"] : $item->icon();
+                                        $baslik = isset ($_POST["baslik_{$item->id()}"]) ? $_POST["baslik_{$item->id()}"] : $item->title();
+                                        $icerik = isset ($_POST["icerik_{$item->id()}"]) ? $_POST["icerik_{$item->id()}"] : $item->desc();
+                                        ?>
+                                        <div class="col-lg-4 mx-auto">
+                                            <form action="" method="post" class="row card-bordered p-1 m-1 bg-light">
+                                                <?php echo $message?>
+                                                <div class="col-lg-2 pt-3">Icon</div>
+                                                <div class="col-lg-12 p-2">
+                                                    <input type="text" name="icon_<?php echo $item->id()?>" class="form-control" value="<?php echo $icon?>" />                                    
+                                                </div>
+
+                                                <div class="col-lg-2 pt-3">Başlık</div>
+                                                <div class="col-lg-12 p-2">
+                                                    <input type="text" name="baslik_<?php echo $item->id()?>" class="form-control" value="<?php echo $baslik?>" />                                    
+                                                </div>
+
+                                                <div class="col-lg-12 p-2">İçerik</div>
+                                                <div class="col-lg-12 p-2">
+                                                    <textarea name="icerik_<?php echo $item->id()?>" rows="5" class="form-control"><?php echo $icerik?></textarea>
+                                                </div>
+                                                <div class="col-lg-12 p-2">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <input type="submit" name="buton_<?php echo $item->id()?>" value="Guncelle" class="btn btn-primary"/>
+                                                        </div>
+                                                        <div class="col-6">  
+                                                            <span onclick="deleteOfferContent(event, <?php echo $item->id()?>)" class="fa fa-close m-2 text-danger" style="font-size:25px;cursor: pointer;"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    <?php endforeach?>
+                                </div>
+                                <!-- modal -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">New Offer Add</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p id="alert"></p>
+                                                <form>
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="col-form-label">Icon</label>
+                                                        <input type="text"  name="icon" class="form-control" id="recipient-name">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="col-form-label">Title</label>
+                                                        <input type="text" name="title" class="form-control" id="recipient-name">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="message-text" class="col-form-label">Content</label>
+                                                        <textarea class="form-control" name="content" id="message-text"></textarea>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button onclick="addOfferContent(event)" type="button" class="btn btn-primary">Create</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             <?php } else if ($_GET["page"] == "references") {?>
                             
                                 <div class="row text-center">
@@ -696,6 +792,72 @@
             } catch (err) {
                 console.log(err)
             }
+        }
+        /* offer */
+        function addOfferContent (e) {
+            e.preventDefault ()
+            
+            const theNode = e.target
+            const theTopParent = document.getElementById("offer-parent")
+            const theParent = theNode.closest(".modal.fade")
+            const theAlert = theParent.querySelector("#alert")
+       
+            const theIcon = theParent.querySelector("[name='icon']")
+            const theTitle = theParent.querySelector("[name='title']")
+            const theContent = theParent.querySelector("[name='content']")
+            
+            const iconVal = theIcon.value.trim()
+            const titleVal = theTitle.value.trim()
+            const contentVal = theContent.value.trim()
+
+            theAlert.innerHTML = ""
+
+            if (iconVal === "" || titleVal === "" || contentVal === "") {
+                theAlert.innerHTML = "<p class='alert alert-danger text-center'>Please fill out all fields</p>"
+            } else {
+
+                const formData = new FormData ()
+
+                formData.append("offerIcon", iconVal)
+                formData.append("offerTitle", titleVal)
+                formData.append("offerContent", contentVal)
+
+                $.ajax ({
+                    url: ROOT_ADMIN.concat("ajax.php"),
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: data => {
+                        theTopParent.insertAdjacentHTML ("beforeend", data)
+                        $('#exampleModal').modal('hide')
+                    }
+                })               
+            }   
+        }
+        function deleteOfferContent (e, offerDeleteId) {
+            try {
+                e.preventDefault ()
+            
+                const theNode = e.target
+                const theParent = theNode.closest(".col-lg-4.mx-auto")
+                const formData = new FormData ()
+
+                formData.append("offerDeleteId", offerDeleteId)
+
+                $.ajax ({
+                    url: ROOT_ADMIN.concat("ajax.php"), 
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: formData, 
+                    success: data => {
+                        theParent.remove ()
+                    }
+                }) 
+            } catch (err) {
+                console.log(err)
+            }    
         }
         /* filo */
         function updateFiloImage (e, filoUpdateId) {

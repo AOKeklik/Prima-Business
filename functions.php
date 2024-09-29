@@ -116,32 +116,14 @@ class Offer {
             $this->data = $input;
         }
     }
+    public function icon () {
+        return $this->data["icon"];
+    }
+    public function title () {
+        return $this->data["baslik"];
+    }
     public function desc () {
-        return $this->data["hizmetler_baslik"];
-    }
-    public function firstTitle () {
-        return $this->data["baslik1"];
-    }
-    public function firstDesc () {
-        return $this->data["icerik1"];
-    }
-    public function secondTitle () {
-        return $this->data["baslik2"];
-    }
-    public function secondDesc () {
-        return $this->data["icerik2"];
-    }
-    public function thirdTitle () {
-        return $this->data["baslik3"];
-    }
-    public function thirdDesc () {
-        return $this->data["icerik3"];
-    }
-    public function forthTitle () {
-        return $this->data["baslik4"];
-    }
-    public function forthDesc () {
-        return $this->data["icerik4"];
+        return $this->data["icerik"];
     }
 }
 class Referance {
@@ -233,16 +215,18 @@ class Settings {
             echo "About: ".$err->getMessage();
         }
     }
-    public function getOffer () {
+    public function getAllOffer () {
         try {
             $sql = "select * from hizmetlerimiz";
             $stmt = $this->pdo->prepare ($sql);
             $stmt->execute ();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($row) {
-                return new Offer ($this->pdo, $row);
+            
+            $results = [];
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $results[] = new Offer ($this->pdo, $row);
             }
+
+            return $results;
         } catch (PDOException $err) {
             echo "Offer: ".$err->getMessage();
         }

@@ -100,40 +100,18 @@
 	<div class="container">
     	<div class="section-header">
             <h2>HİZMETLERİMİZ</h2>
-            <p><?php echo $set->getOffer()->desc()?></p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit libero voluptatibus aliquid nam quod iusto fugiat voluptate fuga! Fugiat, fugit? Incidunt praesentium iure reprehenderit placeat perferendis ad odit eius illo.</p>
    	    </div>
         <div class="row">
-    		<div class="col-lg-6">
-            	<div class="box wow fadeInLeft">
-                	<div class="icon"><i class="fa fa-bar-chart"></i></div>
-                    <h4 class="title"><a href="#"><?php echo $set->getOffer()->firstTitle()?></a></h4>
-                    <p class="description"><?php echo $set->getOffer()->firstDesc()?></p>
-                </div> 
-            </div>
-                  
-            <div class="col-lg-6">
-            	<div class="box wow fadeInRight">
-                	<div class="icon"><i class="fa fa-picture-o"></i></div>
-                    <h4 class="title"><a href="#"><?php echo $set->getOffer()->secondTitle()?></a></h4>
-                    <p class="description"><?php echo $set->getOffer()->secondDesc()?></p>
-                </div> 
-            </div>
-                  
-            <div class="col-lg-6">
-            	<div class="box wow fadeInLeft" >
-                	<div class="icon"><i class="fa fa-map"></i></div>
-                    <h4 class="title"><a href="#"><?php echo $set->getOffer()->thirdTitle()?></a></h4>
-                    <p class="description"><?php echo $set->getOffer()->thirdDesc()?></p>
-                </div> 
-            </div>
-                  
-            <div class="col-lg-6">
-            	<div class="box wow fadeInRight">
-                	<div class="icon"><i class="fa fa-shopping-bag"></i></div>
-                    <h4 class="title"><a href="#"><?php echo $set->getOffer()->forthTitle()?></a></h4>
-                    <p class="description"><?php echo $set->getOffer()->forthDesc()?></p>
-                </div> 
-            </div>
+    		<?php foreach ($set->getAllOffer() as $item):?>
+                <div class="col-lg-6">
+                    <div class="box wow fadeInLeft">
+                        <div class="icon"><i class="<?php echo $item->icon()?>"></i></div>
+                        <h4 class="title"><a href="#"><?php echo $item->title()?></a></h4>
+                        <p class="description"><?php echo $item->desc()?></p>
+                    </div> 
+                </div>
+            <?php endforeach?>
         </div>
     </div>
 </section>
