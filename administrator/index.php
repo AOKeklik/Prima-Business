@@ -48,6 +48,8 @@
                                 <li><a href="<?php echo Constants::$ROOT_URL?>references"><i class="ti-eye"></i> <span>Referanslar Ayarları</span></a></li>
                                 <li><a href="<?php echo Constants::$ROOT_URL?>products"><i class="ti-car"></i> <span>Araç Filosu</span></a></li>
                                 <li><a href="<?php echo Constants::$ROOT_URL?>testimonials"><i class="ti-comment-alt"></i> <span>Müşteri Yorumları</span></a></li>             
+                                <li><a href="<?php echo Constants::$ROOT_URL?>mails"><i class="fa fa-envelope"></i> <span>Gelen Mesajlar</span></a></li>             
+                                <li><a href="<?php echo Constants::$ROOT_URL?>mail-settings"><i class="fa fa-cog"></i> <span>Mesa Ayarlari</span></a></li>             
                             </ul>
                         </nav>
                     </div>
@@ -586,7 +588,114 @@
 
                             <?php } else if ($_GET["page"] == "testimonials") {?>
 
-                                <h1>Testimonials</h1>
+                                <div id="yorum-parent" class="row text-center">
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <h4 class="col-6 mt-3 text-info mb-2">
+                                                Yorum Ayarları
+                                            </h4> 
+                                            <div class="col-6 flex-row justify-content-end align-content-center">
+                                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+                                                    <i class="ti-plus text-white"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <?php foreach ($set->getAllTestimonials() as $item):
+                                        $message = "";
+                                        if (isset ($_POST["buton_{$item->id()}"])) {
+                                            $data = [
+                                                "isim" => $set->formSanitizer($_POST["isim_{$item->id()}"]),
+                                                "icerik" => $set->formSanitizer($_POST["icerik_{$item->id()}"])
+                                            ];
+
+                                            if ($set->updateTestimonialContent ($data, $item->id())) {
+                                                $message = "<div class='col-lg-12 mx-auto mt-2 mb-4 bg-info'><p class='text-white p-2'>Successfully updated!</p></div>";
+                                            } else {
+                                                $message = "<div class='col-lg-12 mx-auto mt-2 mb-4 bg-danger'><p class='text-white p-2'>{$set->getError ()}</p></div>";
+                                            }
+                                        }
+                                        $isim = isset ($_POST["isim_{$item->id()}"]) ? $_POST["isim_{$item->id()}"] : $item->name();
+                                        $icerik = isset ($_POST["icerik_{$item->id()}"]) ? $_POST["icerik_{$item->id()}"] : $item->comment();
+                                        ?>
+                                        <div class="col-lg-4 mx-auto">
+                                            <form action="" method="post" class="row card-bordered p-1 m-1 bg-light">
+                                                <?php echo $message?>
+                                                <div class="col-lg-2 pt-3">Img</div>
+                                                <div class="col-lg-12 p-2">
+                                                    <label for="dosya_<?php echo $item->id()?>" style="height: 200px;cursor:pointer;">
+                                                        <img style="width:100%;height:100%" id="img_<?php echo $item->id()?>" src="../<?php echo $item->img()?>" alt="" />
+                                                        <input onchange="updateTestimonialImg(event, <?php echo $item->id()?>)" type="file" id="dosya_<?php echo $item->id()?>" name="dosya" class="d-none">  
+                                                    </label>                                  
+                                                </div>
+
+                                                <div class="col-lg-2 pt-3">Isim</div>
+                                                <div class="col-lg-12 p-2">
+                                                    <input type="text" name="isim_<?php echo $item->id()?>" class="form-control" value="<?php echo $isim?>" />                                    
+                                                </div>
+
+                                                <div class="col-lg-12 p-2">İçerik</div>
+                                                <div class="col-lg-12 p-2">
+                                                    <textarea name="icerik_<?php echo $item->id()?>" rows="5" class="form-control"><?php echo $icerik?></textarea>
+                                                </div>
+                                                <div class="col-lg-12 p-2">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <input type="submit" name="buton_<?php echo $item->id()?>" value="Guncelle" class="btn btn-primary"/>
+                                                        </div>
+                                                        <div class="col-6">  
+                                                            <span onclick="deleteTestimonialContent(event, <?php echo $item->id()?>)" class="fa fa-close m-2 text-danger" style="font-size:25px;cursor: pointer;"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    <?php endforeach?>
+                                </div>
+                                <!-- modal -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">New Offer Add</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p id="alert"></p>
+                                                <form>
+                                                    <div class="col-lg-12 p-2">
+                                                        <label for="dosya" style="cursor:pointer;">
+                                                            <input type="file" name="dosya" id="dosya" >  
+                                                        </label>                                  
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="col-form-label">Name</label>
+                                                        <input type="text" name="name" class="form-control" id="recipient-name">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="message-text" class="col-form-label">Content</label>
+                                                        <textarea class="form-control" name="content" id="message-text"></textarea>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button onclick="addTestimonial(event)" type="button" class="btn btn-primary">Create</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            <?php } else if ($_GET["page"] == "mails") {?>
+
+                                <h1>Mails</h1>
+
+                            <?php } else if ($_GET["page"] == "mail-settings") {?>
+
+                                <h1>Mail Settings</h1>
 
                             <?php } else if ($_GET["page"] == "logout") {
 
@@ -1037,6 +1146,111 @@
             })
 
             theNode.value = ''
+        }
+        /* testimonials */
+        function updateTestimonialImg (e, testimonialImageUpdateId) {
+            try {
+                e.preventDefault ()
+
+                const theNode = e.target
+                const theParent = theNode.closest(".col-lg-4.mx-auto")
+                const theImg = theParent.querySelector("img");
+
+                const file = e.target.files[0]
+                if (!file) return
+                const fileName = ".".concat(file.name.split(".").pop())
+                const oldImgName = theImg.src.split("/").slice(-2).join("/")
+                const formData = new FormData ()
+
+                formData.append("file", file)
+                formData.append("testimonialImageUpdateId", testimonialImageUpdateId)
+                formData.append("imgName", fileName)
+                formData.append("oldImgName", oldImgName)
+
+                if (fileName) {
+                    const res = $.ajax({
+                        url: ROOT_ADMIN.concat("ajax.php"),
+                        type: "POST",
+                        contentType: false, 
+                        processData: false,
+                        data: formData,
+                        success: function (data) {
+                            console.log(data)
+
+                            if (theImg) {
+                                theImg.src = ROOT+data
+                            }
+                        }
+                    })
+                }
+            } catch (err) {
+                console.log(err)
+            }
+        }
+        function deleteTestimonialContent (e, testimonialDeleteId) {
+            try {
+                e.preventDefault ()
+            
+                const theNode = e.target
+                const theParent = theNode.closest(".col-lg-4.mx-auto")
+                const formData = new FormData ()
+
+                formData.append("testimonialDeleteId", testimonialDeleteId)
+
+                $.ajax ({
+                    url: ROOT_ADMIN.concat("ajax.php"), 
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: formData, 
+                    success: data => {
+                        theParent.remove ()
+                    }
+                }) 
+            } catch (err) {
+                console.log(err)
+            } 
+        }
+        function addTestimonial (e) {
+            e.preventDefault ()
+            
+            const theNode = e.target
+            const theTopParent = document.getElementById("yorum-parent")
+            const theParent = theNode.closest(".modal.fade")
+            const theAlert = theParent.querySelector("#alert")
+       
+            const file = theParent.querySelector("[name='dosya']").files[0]
+            const theTitle = theParent.querySelector("[name='name']")
+            const theContent = theParent.querySelector("[name='content']")
+            
+            const fileName = file?.name.split(".").pop()
+            const titleVal = theTitle.value.trim()
+            const contentVal = theContent.value.trim()
+
+            theAlert.innerHTML = ""
+
+            if (!fileName || titleVal === "" || contentVal === "") {
+                theAlert.innerHTML = "<p class='alert alert-danger text-center'>Please fill out all fields</p>"
+            } else {
+                const formData = new FormData ()
+
+                formData.append("testimonialsImg", fileName)
+                formData.append("file", file)
+                formData.append("name", titleVal)
+                formData.append("content", contentVal)
+
+                $.ajax ({
+                    url: ROOT_ADMIN.concat("ajax.php"),
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: data => {
+                        theTopParent.insertAdjacentHTML ("beforeend", data)
+                        $('#exampleModal').modal('hide')
+                    }
+                })               
+            }   
         }
     </script>
 </body>

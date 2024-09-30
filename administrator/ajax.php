@@ -363,6 +363,125 @@
                 }
             }
         }
+        /* testimonials */
+        if (isset ($_POST["testimonialImageUpdateId"])) {
+            $testimonialImageUpdateId = $set->formSanitizer($_POST["testimonialImageUpdateId"]);
+            $imgName = $set->formSanitizer($_POST["imgName"]);
+            $oldImgName = $set->formSanitizer($_POST["oldImgName"]);
+
+            $newFileName = "img/yorum/testimonial_".time().basename($imgName);
+
+            if (!$set->updateTestimonialsImg ($newFileName, $testimonialImageUpdateId)) {
+                echo "update faild!";
+                return;
+            };
+
+
+            if (0 < $_FILES["file"]["error"]) {
+                echo "Error: ".$_FILES["file"]["error"]."<br>";
+            } else {
+                $rootDirectory = $_SERVER["DOCUMENT_ROOT"]."/Prima-Business/";
+                $pathDirectory = $rootDirectory."img/yorum/";
+                if (!file_exists($pathDirectory) && !is_dir($pathDirectory)) {
+                    mkdir($pathDirectory, 0777, true);
+                }
+
+                $imagePath = $pathDirectory.basename($oldImgName);
+
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+
+                move_uploaded_file($_FILES["file"]["tmp_name"], $rootDirectory.$newFileName);
+                
+
+                echo $newFileName;
+            }
+        }
+        if (isset ($_POST["testimonialDeleteId"])) {
+            $testimonialDeleteId = $set->formSanitizer($_POST["testimonialDeleteId"]);
+
+            $oldImgName = new Testimonial($pdo, $testimonialDeleteId);
+            $pathDirectory = $_SERVER["DOCUMENT_ROOT"]."/Prima-Business/img/yorum/";
+            $imagePath = $pathDirectory.basename($oldImgName->img());
+
+            echo $imagePath;
+
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            } else {
+                echo "img couldent delte!";
+                return;
+            }
+
+            if ($set->deleteTestimonial ($testimonialDeleteId)) {
+                return "secess";
+            }
+        }
+        if (isset ($_POST["testimonialsImg"])) {
+
+            $fileName = "img/yorum/testimonial_".time().".".basename($_POST["testimonialsImg"]);
+            $name = $set->formSanitizer($_POST["name"]);
+            $content = $set->formSanitizer($_POST["content"]);
+
+            $testimonialId = $set->addTestimonial (["isim"=>$name,"icerik"=>$content,"resim"=>$fileName]);
+
+            if (!$testimonialId ) {
+                echo "add faild!";
+                return;
+            }
+
+            $path = Constants::$ROOT.$fileName;
+
+            $rootDirectory = $_SERVER["DOCUMENT_ROOT"]."/Prima-Business/";
+            $pathDirectory = $rootDirectory."img/yorum/";
+
+            if (!file_exists($pathDirectory) && !is_dir($pathDirectory)) {
+                mkdir($pathDirectory, 0777, true);
+            }
+
+            move_uploaded_file($_FILES["file"]["tmp_name"], $rootDirectory.$fileName);
+
+
+
+
+            $html = <<<HTML
+                <div class="col-lg-4 mx-auto">
+                    <form action="" method="post" class="row card-bordered p-1 m-1 bg-light">
+                        <div class="col-lg-2 pt-3">Img</div>
+                        <div class="col-lg-12 p-2">
+                            <label for="dosya_{$testimonialId}" style="height: 200px;cursor:pointer;">
+                                <img style="width:100%;height:100%" id="img_{$testimonialId}?>" src="../{$fileName}" alt="" />
+                                <input onchange="updateTestimonialImg(event, {$testimonialId})" type="file" id="dosya_{$testimonialId}" name="dosya" class="d-none">  
+                            </label>                                  
+                        </div>
+
+                        <div class="col-lg-2 pt-3">Isim</div>
+                        <div class="col-lg-12 p-2">
+                            <input type="text" name="isim_{$testimonialId}" class="form-control" value="{$name}" />                                    
+                        </div>
+
+                        <div class="col-lg-12 p-2">İçerik</div>
+                        <div class="col-lg-12 p-2">
+                            <textarea name="icerik_{$testimonialId}" rows="5" class="form-control">{$content}</textarea>
+                        </div>
+                        <div class="col-lg-12 p-2">
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="submit" name="buton_{$testimonialId}" value="Guncelle" class="btn btn-primary"/>
+                                </div>
+                                <div class="col-6">  
+                                    <span onclick="deleteTestimonialContent(event, {$testimonialId})" class="fa fa-close m-2 text-danger" style="font-size:25px;cursor: pointer;"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            HTML;
+
+            echo $html;
+        }
+
     } catch (ErrorException $err) {
         echo "Ajax: ".$err->getMessage();
     }

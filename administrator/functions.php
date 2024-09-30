@@ -233,15 +233,34 @@ class Filo {
 class Testimonial {
     private $pdo, $data;
     public function __construct ($pdo, $input)  {
+        $this->pdo = $pdo;
         if (is_array($input))
             $this->data = $input;
+        else {
+            try {
+                $sql = "select * from yorum where id=:id";
+                $stmt = $this->pdo->prepare ($sql);
+                $stmt->bindValue (":id", $input);
+                $stmt->execute ();
+                
+                $this->data = $stmt->fetch(PDO::FETCH_ASSOC);
+            } catch (ErrorException $err) {
+                echo "Filo: ".$err->getMessage();
+            }
+        }
     }
 
+    public function id () {
+        return $this->data["id"];
+    }
     public function comment () {
         return $this->data["icerik"];
     }
     public function name () {
         return $this->data["isim"];
+    }
+    public function img () {
+        return $this->data["resim"];
     }
 }
 class Settings {
@@ -629,7 +648,93 @@ class Settings {
             echo "AddReferences : ".$err->getMessage();
         }
     }
+    /* TESTIMONIALS */
+    public function getAllTestimonials () {
+        try {
+            $sql = "select * from yorum";
+            $stmt = $this->pdo->prepare ($sql);
+            $stmt->execute ();
+            
+            $results = [];
+            while ($row =  $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $results[] = new Testimonial ($this->pdo, $row);
+            }
 
+            return $results;
+        } catch (PDOException $err) {
+            echo "Offer: ".$err->getMessage();
+        }
+    } 
+    public function updateTestimonialsImg  ($img, $id) {
+        try {
+            $sql = "update yorum set resim=:img where id=:id";  
+            $stmt = $this->pdo->prepare ($sql);
+            $stmt->bindValue (":img", $img);
+            $stmt->bindValue (":id", $id);
+
+            return $stmt->execute ();
+        } catch (ErrorException $err) {
+            echo "updateAboutImg: ".$err->getMessage();
+        }
+    }
+    public function updateTestimonialContent (array $inputs, $offerId) {
+        try {
+            $this->validateRequire ($inputs);
+
+            if (empty ($this->errorArray)) {
+                $sql = "update yorum set ";
+                foreach ($inputs as $key => $val) {
+                    if ($key == array_key_last($inputs))
+                        $sql .= "$key=:$key ";
+                    else 
+                        $sql .= "$key=:$key, ";
+                }
+                $sql .= "where id=:id";
+                
+                $stmt = $this->pdo->prepare ($sql);
+
+                foreach ($inputs as $key => $val) {
+                    $stmt->bindValue (":$key", $val);
+                }
+                $stmt->bindValue (":id", $offerId);
+
+                return $stmt->execute ();
+            }
+
+            return false;
+        } catch (ErrorException $err) {
+            echo "UpdateSetting: ".$err->getMessage();
+        }
+    }
+    public function deleteTestimonial  ($id) {
+        try {
+            $sql = "delete from yorum where id=:id";  
+            $stmt = $this->pdo->prepare ($sql);
+            $stmt->bindValue (":id", $id);
+
+            return $stmt->execute ();
+        } catch (ErrorException $err) {
+            echo "deleteTestimonial: ".$err->getMessage();
+        }
+    }
+    public function addTestimonial  ($data) {
+        try {
+            $sql = "insert into yorum (";  
+            $sql .= implode(", ", array_keys($data));
+            $sql .= ")values(:".implode(", :", array_keys($data)).")";
+
+            $stmt = $this->pdo->prepare ($sql);
+
+            foreach ($data as $key=>$val) {
+                $stmt->bindValue (":$key", $val);
+            }
+            $stmt->execute ();
+
+            return $this->pdo->lastInsertId();
+        } catch (ErrorException $err) {
+            echo "addTestimonial : ".$err->getMessage();
+        }
+    }
 
     /* form validate */
     public function formSanitizer ($input) {

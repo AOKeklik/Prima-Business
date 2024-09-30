@@ -10,6 +10,8 @@ RewriteRule ^administrator/offers$ administrator/index.php?page=offers [L,QSA]
 RewriteRule ^administrator/references$ administrator/index.php?page=references [L,QSA]
 RewriteRule ^administrator/products$ administrator/index.php?page=products [L,QSA]
 RewriteRule ^administrator/testimonials$ administrator/index.php?page=testimonials [L,QSA]
+RewriteRule ^administrator/mails$ administrator/index.php?page=mails [L,QSA]
+RewriteRule ^administrator/mail-settings$ administrator/index.php?page=mail-settings [L,QSA]
 
 
 # 404.php

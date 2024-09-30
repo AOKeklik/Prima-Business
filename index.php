@@ -178,7 +178,7 @@
                             {$item->comment()}
                             <img src="img/sag.png" class="quote-sign-right" />
                         </p>
-                        <img src="img/yorum.jpg" class="testimonial-img" alt="" />
+                        <img src="{$item->img()}" class="testimonial-img" alt="" />
                         <h3>{$item->name()}</h3>
                     </div>
                 HTML;

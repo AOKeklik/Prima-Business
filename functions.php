@@ -161,6 +161,9 @@ class Testimonial {
     public function name () {
         return $this->data["isim"];
     }
+    public function img () {
+        return $this->data["resim"];
+    }
 }
 
 /* settings */
